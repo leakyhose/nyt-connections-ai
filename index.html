@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             background: #050212;
             background-image: 
                 radial-gradient(circle at 11% 7%, rgba(255,255,255,0.95) 0.3px, transparent 0.7px),
@@ -79,7 +79,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             box-shadow: 0 1px 3px rgba(60, 40, 100, 0.1);
-            font-family: Georgia, serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             z-index: 1000;
             pointer-events: auto;
         }
@@ -258,7 +258,7 @@
             cursor: pointer;
             transition: all 0.15s ease;
             border: 1px solid rgba(120, 90, 160, 0.7);
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
         }
 
         button:hover {
@@ -327,7 +327,7 @@
             align-items: center;
             justify-content: center;
             color: #e0e0e0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
         }
 
         .word-card:hover {
@@ -398,7 +398,7 @@
             margin-bottom: 15px;
             text-align: center;
             color: #d0c0e0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
         }
 
         .suggestion-item {
@@ -449,21 +449,21 @@
         .suggestion-rank {
             font-weight: bold;
             color: #d0c0e0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.85em;
         }
 
         .suggestion-words {
             margin: 3px 0;
             color: #e0e0e0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             font-size: 0.8em;
         }
 
         .suggestion-score {
             font-size: 0.7em;
             color: #b0a0c0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
         }
 
         .result-message {
@@ -477,7 +477,7 @@
             font-weight: bold;
             text-align: center;
             z-index: 10000;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             backdrop-filter: blur(15px);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             animation: resultPopup 1.25s ease-in-out forwards;
@@ -490,6 +490,8 @@
             left: 0;
             right: 0;
             bottom: 0;
+            width: 100vw;
+            height: 100vh;
             background: rgba(0, 0, 0, 0.6);
             z-index: 9999;
             opacity: 0;
@@ -588,7 +590,7 @@
             text-align: center;
             border: 1px solid rgba(70, 40, 110, 0.5);
             box-shadow: 0 2px 8px rgba(40, 20, 70, 0.3);
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
@@ -616,7 +618,7 @@
             font-weight: bold;
             border: 2px solid rgba(80, 50, 120, 0.6);
             color: #b0b0b0;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
             transition: all 0.15s ease;
             font-size: 0.8em;
         }
@@ -629,27 +631,143 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                transform: none !important;
+                padding: 10px;
+                overflow-x: hidden;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                justify-content: flex-start;
+            }
+            
+            .container {
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+                transform: scale(0.95) !important;
+                transform-origin: top center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 0;
+            }
+            
+            .title-container {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+                margin-top: 5px;
+            }
+            
+            h1 {
+                font-size: 1.8em !important;
+                margin-bottom: 15px;
+                text-align: center;
+            }
+            
             .main-content {
                 flex-direction: column;
-                gap: 13px;
+                gap: 15px;
+                align-items: center;
+                width: 100%;
+                max-width: 100%;
+            }
+            
+            .game-area {
+                width: 100%;
+                max-width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
             
             .suggestions-panel {
                 width: 100%;
-                max-width: 510px;
+                max-width: 100%;
+                order: 2;
+                margin: 0;
             }
             
             .game-info {
                 flex-direction: column;
                 gap: 10px;
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                text-align: center;
             }
             
             .word-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 8px;
+                margin-bottom: 35px;
+                width: 100%;
+                max-width: 100%;
+                justify-content: center;
+                margin-left: 0;
+                margin-right: 0;
             }
             
-            body {
-                transform: scale(0.9);
+            .groups-found {
+                margin: 25px 0 30px 0;
+                gap: 8px;
+                justify-content: center;
+                display: flex;
+                width: 100%;
+            }
+            
+            .game-stats {
+                margin-top: 15px;
+                padding: 10px;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                align-items: center;
+            }
+            
+            .game-stats button {
+                font-size: 0.8em !important;
+                padding: 10px 15px !important;
+                margin: 0 !important;
+                width: 100%;
+                max-width: 280px;
+                box-sizing: border-box;
+            }
+            
+            .game-controls {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+                width: 100%;
+                text-align: center;
+            }
+            
+            .game-controls input {
+                width: 80px;
+                text-align: center;
+            }
+            
+            .game-controls button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+            
+            .stats-display {
+                text-align: center;
+                font-size: 0.9em;
+                margin-top: 5px;
+            }
+            
+            .word-card {
+                font-size: 0.85em;
+                padding: 12px 8px;
+                min-height: 50px;
+                text-align: center;
             }
         }
     </style>
@@ -736,12 +854,40 @@
     <script src="connections_game.js"></script>
     
     <script>
+        // Fix overlay sizing on mobile
+        function fixOverlaySize() {
+            const overlays = document.querySelectorAll('.popup-overlay, .info-modal');
+            overlays.forEach(overlay => {
+                // Reset styles first
+                overlay.style.width = '';
+                overlay.style.height = '';
+                overlay.style.top = '';
+                overlay.style.left = '';
+                overlay.style.right = '';
+                overlay.style.bottom = '';
+                
+                // Apply comprehensive coverage
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.right = '0';
+                overlay.style.bottom = '0';
+                overlay.style.width = '100vw';
+                overlay.style.height = '100vh';
+                overlay.style.minWidth = '100vw';
+                overlay.style.minHeight = '100vh';
+                overlay.style.maxWidth = 'none';
+                overlay.style.maxHeight = 'none';
+            });
+        }
+
         // Ensure info modal functions are globally available
         function showInfoModal() {
             console.log('showInfoModal called');
             const modal = document.getElementById('infoModal');
             console.log('Modal element:', modal);
             if (modal) {
+                fixOverlaySize(); // Fix overlay size when showing modal
                 modal.classList.add('show');
                 document.body.style.overflow = 'hidden';
                 console.log('Modal should now be visible');
@@ -790,6 +936,16 @@
             if (closeBtn) {
                 closeBtn.addEventListener('click', hideInfoModal);
             }
+            
+            // Fix overlay size on window resize
+            window.addEventListener('resize', () => {
+                fixOverlaySize();
+            });
+            
+            // Fix overlay size on orientation change
+            window.addEventListener('orientationchange', () => {
+                setTimeout(fixOverlaySize, 100);
+            });
         });
 
         // Close modal when clicking outside of it
