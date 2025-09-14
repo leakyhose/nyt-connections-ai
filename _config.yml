@@ -1,0 +1,17 @@
+# GitHub Pages Configuration
+# This file enables GitHub Pages for this repository
+
+# Include JSON data files
+include:
+  - "data/*.json"
+
+# Exclude development files
+exclude:
+  - "*.py"
+  - "__pycache__/"
+  - "fasttext/*.npy"
+  - "extract/"
+  - "convert_data.py"
+  - "server.py"
+  - "main.py"
+  - "README_original.md"

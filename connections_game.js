@@ -45,13 +45,8 @@ class ConnectionsGame {
             document.getElementById('wordGrid').innerHTML = '<div class="loading">Loading game...</div>';
             document.getElementById('suggestionsList').innerHTML = '<div class="loading">Loading suggestions...</div>';
             
-            // Fetch game data from server
-            const response = await fetch(`/api/game/${gameNumber}`);
-            if (!response.ok) {
-                throw new Error(`Failed to load game: ${response.statusText}`);
-            }
-            
-            const gameData = await response.json();
+            // Load game data using the client-side data loader
+            const gameData = await window.gameDataLoader.loadGame(gameNumber);
             this.words = gameData.words;
             this.adjacencyMatrix = gameData.adjacency_matrix;
             
@@ -79,7 +74,8 @@ class ConnectionsGame {
     }
 
     newRandomGame() {
-        const randomGame = Math.floor(Math.random() * 380);
+        const totalGames = window.gameDataLoader.getTotalGames();
+        const randomGame = window.gameDataLoader.getRandomGameNumber();
         document.getElementById('gameNumber').value = randomGame;
         this.loadGame(randomGame);
     }
@@ -540,7 +536,15 @@ function clearSelection() {
 }
 
 // Initialize game when page loads
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize the game data loader first
+    const success = await window.gameDataLoader.initialize();
+    if (!success) {
+        console.error('Failed to initialize game data loader');
+        document.getElementById('wordGrid').innerHTML = '<div class="loading">Error: Failed to load game data</div>';
+        return;
+    }
+    
     game = new ConnectionsGame();
     console.log('Game ready');
 });
