@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 def main():
-    print("Welcome to Connections - by Yiming Su!")
+    print("ConnectionsAI - by Yiming Su")
     print("=" * 50)
     
     # Check if game data exists

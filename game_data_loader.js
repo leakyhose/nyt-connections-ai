@@ -14,7 +14,7 @@ class GameDataLoader {
      */
     async initialize() {
         try {
-            const response = await fetch('./data/games_index.json');
+            const response = await fetch('data/games_index.json');
             if (!response.ok) {
                 throw new Error(`Failed to load games index: ${response.statusText}`);
             }
@@ -63,7 +63,7 @@ class GameDataLoader {
         try {
             // Load game data from JSON file
             const gameInfo = this.gamesIndex.games[gameNumber];
-            const response = await fetch(`./data/${gameInfo.filename}`);
+            const response = await fetch(`data/${gameInfo.filename}`);
             
             if (!response.ok) {
                 throw new Error(`Failed to load game ${gameNumber}: ${response.statusText}`);
