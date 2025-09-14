@@ -554,18 +554,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Info Modal Functions
 function showInfoModal() {
+    console.log('showInfoModal called');
+    alert('Button clicked!'); // Temporary test
     const modal = document.getElementById('infoModal');
-    modal.classList.add('show');
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    console.log('Modal element:', modal);
+    if (modal) {
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        console.log('Modal should now be visible');
+    } else {
+        console.error('Modal element not found!');
+    }
 }
 
 function hideInfoModal() {
+    console.log('hideInfoModal called');
     const modal = document.getElementById('infoModal');
-    modal.classList.remove('show');
-    document.body.style.overflow = 'auto'; // Restore scrolling
-    
-    // Mark that user has seen the info
-    localStorage.setItem('connectionsai-info-seen', 'true');
+    if (modal) {
+        modal.classList.remove('show');
+        document.body.style.overflow = 'auto'; // Restore scrolling
+        
+        // Mark that user has seen the info
+        localStorage.setItem('connectionsai-info-seen', 'true');
+    }
 }
 
 function checkFirstVisit() {
