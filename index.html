@@ -40,6 +40,140 @@
             font-size: 2.3em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
             color: #d0c0e0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .title-container {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .info-button {
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(100, 80, 120, 0.8);
+            border: 2px solid #8a7ca8;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            color: #e0e0e0;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .info-button:hover {
+            background: rgba(120, 100, 140, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .info-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .info-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .info-modal-content {
+            background: linear-gradient(135deg, #1a1428, #2a1e38);
+            border: 2px solid #8a7ca8;
+            border-radius: 15px;
+            max-width: 600px;
+            max-height: 80vh;
+            width: 90%;
+            padding: 30px;
+            position: relative;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .info-modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .info-modal-content::-webkit-scrollbar-track {
+            background: rgba(40, 30, 50, 0.5);
+            border-radius: 4px;
+        }
+
+        .info-modal-content::-webkit-scrollbar-thumb {
+            background: #8a7ca8;
+            border-radius: 4px;
+        }
+
+        .info-modal-content::-webkit-scrollbar-thumb:hover {
+            background: #a08fb8;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #e0e0e0;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .close-button:hover {
+            color: #ff6b6b;
+        }
+
+        .info-modal h2 {
+            color: #d0c0e0;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .info-modal h3 {
+            color: #b8a8c8;
+            font-size: 1.3em;
+            margin: 20px 0 10px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .info-modal p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .info-modal a {
+            color: #8a7ca8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-modal a:hover {
+            color: #a08fb8;
+            text-decoration: underline;
         }
 
         .game-info {
@@ -492,7 +626,10 @@
 <body>
     <div class="popup-overlay" id="popupOverlay"></div>
     <div class="container" id="mainContainer">
-        <h1>Connections - by Yiming Su</h1>
+        <div class="title-container">
+            <h1>ConnectionsAI - by Yiming Su</h1>
+            <button class="info-button" onclick="showInfoModal()" title="About ConnectionsAI">i</button>
+        </div>
         
         <div class="game-info intro-mode" id="gameInfo">
             <div class="game-controls">
@@ -531,6 +668,30 @@
                     <div class="loading">Load a game to see suggestions!</div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="info-modal" id="infoModal">
+        <div class="info-modal-content">
+            <button class="close-button" onclick="hideInfoModal()">&times;</button>
+            
+            <h2>Welcome to ConnectionsAI!</h2>
+            <p>I am Yiming, and I made this AI over the summer of 2024 to solve the popular NYT game Connections. This is web demonstration of this project, so feel free to play around!</p>
+            
+            <h3>What is ConnectionsAI?</h3>
+            <p>ConnectionsAI is a bot that, using a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where in essence the context of words is compared with other words and given values, where those values can then be compared to one another to determine how similar the contexts, and thus the words are.</p>
+            
+            <p>For example, the word "monarch" and "ruler" would often be seen with similar surround words, say "king", "crown", "throne", etc. Thus the AI can determine that they must be pretty similar. Words like "grass" and "bird" may have some similar contexts, like "nature" and "environment", but would also have many different contexts. Thus the AI can tell that they are kind of similar, but not as similar as "king" and "crown".</p>
+            
+            <p>Using this, the AI then ranks several groups of words, using how similar the words are to the other words in the group (density) and how dissimilar they are to outsiders (conductance). With weights applied to each of these values, calculated with a genetic algorithm, we then get an AI that can play connections pretty well!</p>
+            
+            <h3>What are the limitations?</h3>
+            <p>Since the words are grouped on semantics, Connections categories that involve proper nouns and how a word is made up are points of struggle for the bot. There's no way to tell that four words are homonyms just from the contexts of them each. Due to this, it sometimes burns over 40 guesses trying to get a single category, as it uses trial and error to get past its faults.</p>
+            
+            <h3>I want to know more!</h3>
+            <p>I made a video on this bot last summer, so please check it out! Sorry about the bad mic quality, I swear my current one is better now.</p>
+            <p><a href="https://www.youtube.com/watch?v=f_vW9pyRhMs" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=f_vW9pyRhMs</a></p>
         </div>
     </div>
 

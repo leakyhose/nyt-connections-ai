@@ -547,4 +547,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     game = new ConnectionsGame();
     console.log('Game ready');
+    
+    // Check if this is the first visit and show info modal
+    checkFirstVisit();
+});
+
+// Info Modal Functions
+function showInfoModal() {
+    const modal = document.getElementById('infoModal');
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function hideInfoModal() {
+    const modal = document.getElementById('infoModal');
+    modal.classList.remove('show');
+    document.body.style.overflow = 'auto'; // Restore scrolling
+    
+    // Mark that user has seen the info
+    localStorage.setItem('connectionsai-info-seen', 'true');
+}
+
+function checkFirstVisit() {
+    const hasSeenInfo = localStorage.getItem('connectionsai-info-seen');
+    if (!hasSeenInfo) {
+        // Show info modal after a short delay to let the page load
+        setTimeout(() => {
+            showInfoModal();
+        }, 500);
+    }
+}
+
+// Close modal when clicking outside of it
+document.addEventListener('click', (e) => {
+    const modal = document.getElementById('infoModal');
+    const modalContent = modal.querySelector('.info-modal-content');
+    
+    if (modal.classList.contains('show') && !modalContent.contains(e.target)) {
+        hideInfoModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('infoModal');
+        if (modal.classList.contains('show')) {
+            hideInfoModal();
+        }
+    }
 });
