@@ -549,62 +549,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log('Game ready');
     
     // Check if this is the first visit and show info modal
-    checkFirstVisit();
-});
-
-// Info Modal Functions
-function showInfoModal() {
-    console.log('showInfoModal called');
-    alert('Button clicked!'); // Temporary test
-    const modal = document.getElementById('infoModal');
-    console.log('Modal element:', modal);
-    if (modal) {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        console.log('Modal should now be visible');
-    } else {
-        console.error('Modal element not found!');
-    }
-}
-
-function hideInfoModal() {
-    console.log('hideInfoModal called');
-    const modal = document.getElementById('infoModal');
-    if (modal) {
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto'; // Restore scrolling
-        
-        // Mark that user has seen the info
-        localStorage.setItem('connectionsai-info-seen', 'true');
-    }
-}
-
-function checkFirstVisit() {
-    const hasSeenInfo = localStorage.getItem('connectionsai-info-seen');
-    if (!hasSeenInfo) {
-        // Show info modal after a short delay to let the page load
-        setTimeout(() => {
-            showInfoModal();
-        }, 500);
-    }
-}
-
-// Close modal when clicking outside of it
-document.addEventListener('click', (e) => {
-    const modal = document.getElementById('infoModal');
-    const modalContent = modal.querySelector('.info-modal-content');
-    
-    if (modal.classList.contains('show') && !modalContent.contains(e.target)) {
-        hideInfoModal();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        const modal = document.getElementById('infoModal');
-        if (modal.classList.contains('show')) {
-            hideInfoModal();
-        }
+    if (typeof checkFirstVisit === 'function') {
+        checkFirstVisit();
     }
 });
