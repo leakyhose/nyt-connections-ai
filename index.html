@@ -53,8 +53,7 @@
         .info-button {
             position: absolute;
             right: -45px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 15px;
             background: linear-gradient(135deg, rgba(138, 124, 168, 0.9), rgba(118, 104, 148, 0.9));
             border: 1px solid rgba(160, 143, 184, 0.6);
             border-radius: 50%;
@@ -70,12 +69,18 @@
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(60, 40, 100, 0.3);
             font-family: Georgia, serif;
+            z-index: 1000;
+            pointer-events: auto;
         }
 
         .info-button:hover {
             background: linear-gradient(135deg, rgba(160, 143, 184, 0.95), rgba(140, 123, 164, 0.95));
-            transform: translateY(-50%) scale(1.05);
+            transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(80, 60, 120, 0.4);
+        }
+
+        .info-button:active {
+            transform: scale(0.95);
         }
 
         .info-modal {
@@ -733,21 +738,42 @@
         }
 
         function checkFirstVisit() {
-            const hasSeenInfo = localStorage.getItem('connectionsai-info-seen');
-            if (!hasSeenInfo) {
-                setTimeout(() => {
-                    showInfoModal();
-                }, 500);
-            }
+            // Always show modal on page load
+            setTimeout(() => {
+                showInfoModal();
+            }, 500);
         }
 
         // Wait for DOM to load before adding event listeners
         document.addEventListener('DOMContentLoaded', () => {
-            // Add click listener to info button
+            // Add click listener to info button with multiple approaches
             const infoBtn = document.getElementById('infoBtn');
             if (infoBtn) {
-                infoBtn.addEventListener('click', showInfoModal);
-                console.log('Info button event listener added');
+                // Method 1: addEventListener
+                infoBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Info button clicked via addEventListener');
+                    showInfoModal();
+                });
+                
+                // Method 2: onclick as backup
+                infoBtn.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Info button clicked via onclick');
+                    showInfoModal();
+                };
+                
+                // Method 3: mousedown as another backup
+                infoBtn.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Info button mousedown');
+                    showInfoModal();
+                });
+                
+                console.log('Info button event listeners added');
             } else {
                 console.error('Info button not found!');
             }
