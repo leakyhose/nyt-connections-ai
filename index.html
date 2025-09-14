@@ -52,27 +52,30 @@
 
         .info-button {
             position: absolute;
-            right: -40px;
+            right: -45px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(100, 80, 120, 0.8);
-            border: 2px solid #8a7ca8;
+            background: linear-gradient(135deg, rgba(138, 124, 168, 0.9), rgba(118, 104, 148, 0.9));
+            border: 1px solid rgba(160, 143, 184, 0.6);
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
-            color: #e0e0e0;
-            font-size: 14px;
-            font-weight: bold;
+            width: 32px;
+            height: 32px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: normal;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(60, 40, 100, 0.3);
+            font-family: Georgia, serif;
         }
 
         .info-button:hover {
-            background: rgba(120, 100, 140, 0.9);
-            transform: translateY(-50%) scale(1.1);
+            background: linear-gradient(135deg, rgba(160, 143, 184, 0.95), rgba(140, 123, 164, 0.95));
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 4px 12px rgba(80, 60, 120, 0.4);
         }
 
         .info-modal {
@@ -100,10 +103,10 @@
             background: linear-gradient(135deg, #1a1428, #2a1e38);
             border: 2px solid #8a7ca8;
             border-radius: 15px;
-            max-width: 600px;
-            max-height: 80vh;
-            width: 90%;
-            padding: 30px;
+            max-width: 750px;
+            max-height: 85vh;
+            width: 95%;
+            padding: 40px;
             position: relative;
             overflow-y: auto;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -146,33 +149,38 @@
 
         .info-modal h2 {
             color: #d0c0e0;
-            font-size: 1.8em;
-            margin-bottom: 15px;
+            font-size: 2.2em;
+            margin-bottom: 25px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-weight: normal;
         }
 
         .info-modal h3 {
             color: #b8a8c8;
-            font-size: 1.3em;
-            margin: 20px 0 10px 0;
+            font-size: 1.6em;
+            margin: 30px 0 15px 0;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-weight: normal;
         }
 
         .info-modal p {
-            color: #e0e0e0;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            text-align: justify;
+            color: #e8e8e8;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 1.1em;
+            font-weight: normal;
         }
 
         .info-modal a {
-            color: #8a7ca8;
+            color: #a08fb8;
             text-decoration: none;
             transition: color 0.3s ease;
+            font-weight: normal;
         }
 
         .info-modal a:hover {
-            color: #a08fb8;
+            color: #c0afb8;
             text-decoration: underline;
         }
 
@@ -628,7 +636,7 @@
     <div class="container" id="mainContainer">
         <div class="title-container">
             <h1>ConnectionsAI - by Yiming Su</h1>
-            <button class="info-button" onclick="showInfoModal()" title="About ConnectionsAI">i</button>
+            <button class="info-button" id="infoBtn" title="About ConnectionsAI">i</button>
         </div>
         
         <div class="game-info intro-mode" id="gameInfo">
@@ -674,10 +682,10 @@
     <!-- Info Modal -->
     <div class="info-modal" id="infoModal">
         <div class="info-modal-content">
-            <button class="close-button" onclick="hideInfoModal()">&times;</button>
+            <button class="close-button">&times;</button>
             
             <h2>Welcome to ConnectionsAI!</h2>
-            <p>I am Yiming, and I made this AI over the summer of 2024 to solve the popular NYT game Connections. This is a web demonstration of this project, so feel free to play around!</p>
+            <p>Hi! I am Yiming, and I made this bot over the summer of 2024 to solve the popular NYT game Connections. This is a web demonstration of this project, so feel free to play around!</p>
             
             <h3>What is ConnectionsAI?</h3>
             <p>ConnectionsAI is a bot that uses a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where the context of words is compared with other words and given values. Those values can then be compared to one another to determine how similar the contexts, and thus the words, are.</p>
@@ -703,7 +711,6 @@
         // Ensure info modal functions are globally available
         function showInfoModal() {
             console.log('showInfoModal called');
-            alert('Button clicked!'); // Temporary test
             const modal = document.getElementById('infoModal');
             console.log('Modal element:', modal);
             if (modal) {
@@ -733,6 +740,24 @@
                 }, 500);
             }
         }
+
+        // Wait for DOM to load before adding event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add click listener to info button
+            const infoBtn = document.getElementById('infoBtn');
+            if (infoBtn) {
+                infoBtn.addEventListener('click', showInfoModal);
+                console.log('Info button event listener added');
+            } else {
+                console.error('Info button not found!');
+            }
+
+            // Add click listener to close button
+            const closeBtn = document.querySelector('.close-button');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', hideInfoModal);
+            }
+        });
 
         // Close modal when clicking outside of it
         document.addEventListener('click', (e) => {
