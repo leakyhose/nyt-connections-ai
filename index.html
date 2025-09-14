@@ -52,15 +52,15 @@
 
         .info-button {
             position: absolute;
-            right: -45px;
-            top: 15px;
+            right: -40px;
+            top: 5px;
             background: linear-gradient(135deg, rgba(138, 124, 168, 0.9), rgba(118, 104, 148, 0.9));
             border: 1px solid rgba(160, 143, 184, 0.6);
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
             color: #ffffff;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: normal;
             cursor: pointer;
             display: flex;
@@ -746,34 +746,18 @@
 
         // Wait for DOM to load before adding event listeners
         document.addEventListener('DOMContentLoaded', () => {
-            // Add click listener to info button with multiple approaches
+            // Add click listener to info button
             const infoBtn = document.getElementById('infoBtn');
             if (infoBtn) {
-                // Method 1: addEventListener
+                // Single click event - remove multiple handlers that were causing issues
                 infoBtn.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Info button clicked via addEventListener');
+                    console.log('Info button clicked');
                     showInfoModal();
                 });
                 
-                // Method 2: onclick as backup
-                infoBtn.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Info button clicked via onclick');
-                    showInfoModal();
-                };
-                
-                // Method 3: mousedown as another backup
-                infoBtn.addEventListener('mousedown', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Info button mousedown');
-                    showInfoModal();
-                });
-                
-                console.log('Info button event listeners added');
+                console.log('Info button event listener added');
             } else {
                 console.error('Info button not found!');
             }
