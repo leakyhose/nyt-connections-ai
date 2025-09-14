@@ -133,15 +133,30 @@ class ConnectionsGame {
     updateSubmitButton() {
         const submitBtn = document.getElementById('submitBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const gameStats = document.getElementById('gameStats');
+        
+        console.log('updateSubmitButton called, selectedWords:', this.selectedWords.length);
+        console.log('gameStats element:', gameStats);
+        
+        // Show the game stats box when any words are selected
+        if (this.selectedWords.length > 0) {
+            console.log('Showing game stats box');
+            gameStats.classList.remove('hidden');
+        } else {
+            console.log('Hiding game stats box');
+            gameStats.classList.add('hidden');
+        }
         
         if (this.selectedWords.length === 4) {
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit Guess';
-            submitBtn.style.background = '#4CAF50';
+            // Green background when enabled
+            submitBtn.style.background = 'linear-gradient(135deg, rgba(60, 150, 60, 0.9), rgba(40, 130, 40, 0.9))';
         } else {
             submitBtn.disabled = true;
             submitBtn.textContent = `Submit Guess (Select ${4 - this.selectedWords.length} more)`;
-            submitBtn.style.background = '#666';
+            // Remove inline styles to let CSS handle the disabled appearance
+            submitBtn.style.background = '';
         }
         
         clearBtn.style.display = this.selectedWords.length > 0 ? 'inline-block' : 'none';

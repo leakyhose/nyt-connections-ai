@@ -13,13 +13,17 @@
 
         body {
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            background: #3a2c56;
+            background: #050212;
             background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.06) 1px, transparent 1px),
-                radial-gradient(circle at 80% 50%, rgba(255,255,255,0.04) 1px, transparent 1px),
-                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.05) 1px, transparent 1px),
-                radial-gradient(circle at 60% 20%, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 25px 25px, 35px 35px, 30px 30px, 40px 40px;
+                radial-gradient(circle at 11% 7%, rgba(255,255,255,0.95) 0.3px, transparent 0.7px),
+                radial-gradient(circle at 83% 71%, rgba(255,255,255,0.7) 0.9px, transparent 1.3px),
+                radial-gradient(circle at 37% 94%, rgba(255,255,255,0.85) 0.5px, transparent 0.9px),
+                radial-gradient(circle at 67% 19%, rgba(255,255,255,0.6) 1.1px, transparent 1.6px),
+                radial-gradient(circle at 23% 58%, rgba(255,255,255,0.8) 0.4px, transparent 0.8px),
+                radial-gradient(circle at 89% 33%, rgba(255,255,255,0.9) 0.7px, transparent 1.1px),
+                radial-gradient(circle at 3% 82%, rgba(255,255,255,0.5) 0.6px, transparent 1px),
+                radial-gradient(circle at 51% 26%, rgba(255,255,255,0.75) 0.8px, transparent 1.2px);
+            background-size: 340px 290px, 480px 370px, 290px 520px, 410px 330px, 380px 450px, 320px 280px, 460px 390px, 350px 430px;
             color: #e0e0e0;
             min-height: 100vh;
             display: flex;
@@ -45,7 +49,7 @@
             margin-bottom: 25px;
             font-size: 2.3em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            color: #d0c0e0;
+            color: #e6d7ff;
             position: relative;
             display: inline-block;
         }
@@ -61,7 +65,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(138, 124, 168, 0.9) !important;
+            background: rgba(138, 124, 168, 0.9);
             border: 1px solid rgba(160, 143, 184, 0.6);
             border-radius: 50%;
             width: 50px;
@@ -74,16 +78,16 @@
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
-            box-shadow: none !important;
+            box-shadow: 0 1px 3px rgba(60, 40, 100, 0.1);
             font-family: Georgia, serif;
             z-index: 1000;
             pointer-events: auto;
         }
 
         .info-button:hover {
-            background: rgba(160, 143, 184, 0.95) !important;
+            background: rgba(160, 143, 184, 0.95);
             transform: scale(1.1);
-            box-shadow: none !important;
+            box-shadow: 0 2px 5px rgba(80, 60, 120, 0.15);
         }
 
         .info-button:active {
@@ -156,11 +160,11 @@
         }
 
         .close-button:hover {
-            color: #ff6b6b;
+            color: #ff9fda;
         }
 
         .info-modal h2 {
-            color: #d0c0e0;
+            color: #f0e6ff;
             font-size: 2.2em;
             margin-bottom: 25px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
@@ -168,7 +172,7 @@
         }
 
         .info-modal h3 {
-            color: #b8a8c8;
+            color: #d4c4f0;
             font-size: 1.6em;
             margin: 30px 0 15px 0;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
@@ -185,14 +189,14 @@
         }
 
         .info-modal a {
-            color: #a08fb8;
+            color: #c9b3ff;
             text-decoration: none;
             transition: color 0.3s ease;
             font-weight: normal;
         }
 
         .info-modal a:hover {
-            color: #c0afb8;
+            color: #e6d7ff;
             text-decoration: underline;
         }
 
@@ -242,25 +246,25 @@
         }
 
         input {
-            background: rgba(60,60,60,0.9);
-            color: #e0e0e0;
+            background: rgba(40, 30, 70, 0.9);
+            color: #f0f0f0;
             width: 100px;
-            border: 1px solid rgba(100,100,100,0.5);
+            border: 1px solid rgba(120, 90, 160, 0.6);
         }
 
         button {
-            background: linear-gradient(135deg, rgba(50, 30, 80, 0.9), rgba(40, 25, 70, 0.9));
-            color: #e0e0e0;
+            background: linear-gradient(135deg, rgba(90, 60, 130, 0.9), rgba(70, 45, 110, 0.9));
+            color: #f0f0f0;
             cursor: pointer;
             transition: all 0.15s ease;
-            border: 1px solid rgba(80, 50, 120, 0.6);
+            border: 1px solid rgba(120, 90, 160, 0.7);
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         }
 
         button:hover {
-            background: linear-gradient(135deg, rgba(60, 40, 90, 0.95), rgba(50, 35, 80, 0.95));
+            background: linear-gradient(135deg, rgba(110, 80, 150, 0.95), rgba(90, 65, 130, 0.95));
             transform: translateY(-1px);
-            box-shadow: 0 2px 6px rgba(50, 30, 80, 0.3);
+            box-shadow: 0 3px 8px rgba(90, 60, 130, 0.4);
         }
 
         button:disabled {
@@ -585,6 +589,13 @@
             border: 1px solid rgba(70, 40, 110, 0.5);
             box-shadow: 0 2px 8px rgba(40, 20, 70, 0.3);
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .game-stats.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .groups-found {
@@ -679,7 +690,7 @@
                     <div class="group-indicator" id="group4">4</div>
                 </div>
 
-                <div class="game-stats">
+                <div class="game-stats hidden" id="gameStats">
                     <button onclick="submitGuess()" id="submitBtn" disabled style="padding: 10px 15px; font-size: 0.85em; margin-right: 12px;">Submit Guess (Select 4 words)</button>
                     <button onclick="clearSelection()" id="clearBtn" style="padding: 10px 15px; font-size: 0.85em;">Clear Selection</button>
                 </div>
@@ -700,20 +711,22 @@
             <button class="close-button">&times;</button>
             
             <h2>Welcome to ConnectionsAI!</h2>
-            <p>Hi! I am Yiming, and I made this bot over the summer of 2024 to solve the popular NYT game Connections. This is a web demonstration of this project, so feel free to play around!</p>
+            <p> Hey! I am Yiming, and I made this bot over the summer of 2024 to solve the popular NYT game Connections. This is a web demonstration of this project, so feel free to play around!</p>
+
+            <h3>How to use?</h3>
+            <p> To use ConnectionsAI, load a game either through number or through random. These real Connections games will then be analyzed by the AI, and its suggestions shown on the side. Click on the suggestion to select it. You can choose amongst the AI's top choices, or make your own!</p>
+            <h3>How does it work??</h3>
+            <p> ConnectionsAI is a bot that uses a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where the context of words is compared with other words and given values. Those values can then be compared to one another to determine how similar the contexts, and thus the words, are.</p>
             
-            <h3>What is ConnectionsAI?</h3>
-            <p>ConnectionsAI is a bot that uses a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where the context of words is compared with other words and given values. Those values can then be compared to one another to determine how similar the contexts, and thus the words, are.</p>
+            <p> For example, the words "monarch" and "ruler" would often be seen with similar surrounding words, such as "king," "crown," "throne," etc. Thus, the AI can determine that they must be pretty similar. Words like "grass" and "bird" may have some similar contexts, like "nature" and "environment," but would also have many different contexts. Thus, the AI can tell that they are kind of similar, but not as similar as "king" and "crown."</p>
             
-            <p>For example, the words "monarch" and "ruler" would often be seen with similar surrounding words, such as "king," "crown," "throne," etc. Thus, the AI can determine that they must be pretty similar. Words like "grass" and "bird" may have some similar contexts, like "nature" and "environment," but would also have many different contexts. Thus, the AI can tell that they are kind of similar, but not as similar as "king" and "crown."</p>
-            
-            <p>Using this, the AI then ranks several groups of words, using how similar the words are to the other words in the group (density) and how dissimilar they are to outsiders (conductance). With weights applied to each of these values, calculated with a genetic algorithm, we get an AI that can play Connections pretty well!</p>
+            <p> Using this, the AI then ranks several groups of words, using how similar the words are to the other words in the group (density) and how dissimilar they are to outsiders (conductance). With weights applied to each of these values, calculated with a genetic algorithm, we get an AI that can play Connections pretty well!</p>
             
             <h3>What are the limitations?</h3>
-            <p>Since the words are grouped on semantics, Connections categories that involve proper nouns and how a word is constructed are points of struggle for the bot. There's no way to tell that four words are homonyms just from their contexts. Due to this, it sometimes uses over 40 guesses trying to get a single category, as it uses trial and error to get past its shortcomings.</p>
+            <p> Since the words are grouped on semantics, Connections categories that involve proper nouns and how a word is constructed are points of struggle for the bot. There's no way to tell that four words are homonyms just from their contexts. Due to this, it sometimes uses over 40 guesses trying to get a single category, as it uses trial and error to get past its shortcomings.</p>
             
             <h3>I want to know more!</h3>
-            <p>I made a video on this bot last summer, so please check it out! Sorry about the bad mic quality, captions are available!</p>
+            <p> I made a video on this bot last summer, so please check it out! Sorry about the bad mic quality, captions are available!</p>
             <p><a href="https://www.youtube.com/watch?v=f_vW9pyRhMs" target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=f_vW9pyRhMs</a></p>
         </div>
     </div>
@@ -751,7 +764,7 @@
             // Always show modal on page load
             setTimeout(() => {
                 showInfoModal();
-            }, 500);
+            }, 100);
         }
 
         // Wait for DOM to load before adding event listeners
