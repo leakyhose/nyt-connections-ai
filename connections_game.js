@@ -537,6 +537,10 @@ function clearSelection() {
 
 // Initialize game when page loads
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('=== ConnectionsAI: Starting initialization ===');
+    console.log('Current URL:', window.location.href);
+    console.log('Game data loader exists:', !!window.gameDataLoader);
+    
     // Initialize the game data loader first
     const success = await window.gameDataLoader.initialize();
     if (!success) {
@@ -545,6 +549,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     
+    console.log('Game data loader initialized successfully');
     game = new ConnectionsGame();
     console.log('Game ready');
 });
