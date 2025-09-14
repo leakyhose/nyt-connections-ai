@@ -677,17 +677,17 @@
             <button class="close-button" onclick="hideInfoModal()">&times;</button>
             
             <h2>Welcome to ConnectionsAI!</h2>
-            <p>I am Yiming, and I made this AI over the summer of 2024 to solve the popular NYT game Connections. This is web demonstration of this project, so feel free to play around!</p>
+            <p>I am Yiming, and I made this AI over the summer of 2024 to solve the popular NYT game Connections. This is a web demonstration of this project, so feel free to play around!</p>
             
             <h3>What is ConnectionsAI?</h3>
-            <p>ConnectionsAI is a bot that, using a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where in essence the context of words is compared with other words and given values, where those values can then be compared to one another to determine how similar the contexts, and thus the words are.</p>
+            <p>ConnectionsAI is a bot that uses a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where the context of words is compared with other words and given values. Those values can then be compared to one another to determine how similar the contexts, and thus the words, are.</p>
             
-            <p>For example, the word "monarch" and "ruler" would often be seen with similar surround words, say "king", "crown", "throne", etc. Thus the AI can determine that they must be pretty similar. Words like "grass" and "bird" may have some similar contexts, like "nature" and "environment", but would also have many different contexts. Thus the AI can tell that they are kind of similar, but not as similar as "king" and "crown".</p>
+            <p>For example, the words "monarch" and "ruler" would often be seen with similar surrounding words, such as "king," "crown," "throne," etc. Thus, the AI can determine that they must be pretty similar. Words like "grass" and "bird" may have some similar contexts, like "nature" and "environment," but would also have many different contexts. Thus, the AI can tell that they are kind of similar, but not as similar as "king" and "crown."</p>
             
-            <p>Using this, the AI then ranks several groups of words, using how similar the words are to the other words in the group (density) and how dissimilar they are to outsiders (conductance). With weights applied to each of these values, calculated with a genetic algorithm, we then get an AI that can play connections pretty well!</p>
+            <p>Using this, the AI then ranks several groups of words, using how similar the words are to the other words in the group (density) and how dissimilar they are to outsiders (conductance). With weights applied to each of these values, calculated with a genetic algorithm, we get an AI that can play Connections pretty well!</p>
             
             <h3>What are the limitations?</h3>
-            <p>Since the words are grouped on semantics, Connections categories that involve proper nouns and how a word is made up are points of struggle for the bot. There's no way to tell that four words are homonyms just from the contexts of them each. Due to this, it sometimes burns over 40 guesses trying to get a single category, as it uses trial and error to get past its faults.</p>
+            <p>Since the words are grouped on semantics, Connections categories that involve proper nouns and how a word is constructed are points of struggle for the bot. There's no way to tell that four words are homonyms just from their contexts. Due to this, it sometimes uses over 40 guesses trying to get a single category, as it uses trial and error to get past its shortcomings.</p>
             
             <h3>I want to know more!</h3>
             <p>I made a video on this bot last summer, so please check it out! Sorry about the bad mic quality, I swear my current one is better now.</p>
