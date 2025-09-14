@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connections - by Yiming Su</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #0f0f1a, #1a1428);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1020px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: #d0c0e0;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0 auto 25px auto;
+            background: linear-gradient(135deg, rgba(35, 15, 50, 0.9), rgba(25, 15, 40, 0.9));
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(80, 50, 120, 0.4);
+            box-shadow: 0 2px 8px rgba(50, 20, 80, 0.3);
+            width: 100%;
+            max-width: 875px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-info.intro-mode {
+            max-width: 500px;
+            padding: 30px;
+            transform: scale(1.2);
+            margin: 50px auto;
+            justify-content: center;
+        }
+
+        .game-info.intro-mode .game-controls {
+            justify-content: center;
+        }
+
+        .game-info.intro-mode .stats-display {
+            display: none;
+        }
+
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        input, button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input {
+            background: rgba(60,60,60,0.9);
+            color: #e0e0e0;
+            width: 100px;
+            border: 1px solid rgba(100,100,100,0.5);
+        }
+
+        button {
+            background: linear-gradient(135deg, rgba(50, 30, 80, 0.9), rgba(40, 25, 70, 0.9));
+            color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: 1px solid rgba(80, 50, 120, 0.6);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, rgba(60, 40, 90, 0.95), rgba(50, 35, 80, 0.95));
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(50, 30, 80, 0.3);
+        }
+
+        button:disabled {
+            background: #1a1a1a;
+            cursor: not-allowed;
+            transform: none;
+            color: #666;
+            box-shadow: none;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            max-width: 875px;
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-content.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .game-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+        }
+
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 480px;
+            justify-self: center;
+        }
+
+        .word-card {
+            background: linear-gradient(135deg, rgba(30, 15, 45, 0.9), rgba(20, 10, 35, 0.9));
+            border: 2px solid rgba(80, 50, 120, 0.6);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            font-size: 0.95em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            backdrop-filter: blur(8px);
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e0e0e0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .word-card:hover {
+            background: linear-gradient(135deg, rgba(40, 25, 55, 0.95), rgba(30, 20, 45, 0.95));
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(50, 30, 80, 0.3);
+            border-color: rgba(100, 70, 140, 0.8);
+        }
+
+        .word-card.selected {
+            background: linear-gradient(135deg, rgba(180, 60, 120, 0.9), rgba(160, 40, 100, 0.9));
+            border-color: #e91e63;
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(180, 60, 120, 0.4);
+        }
+
+        .word-card.found {
+            background: linear-gradient(135deg, rgba(20, 60, 35, 0.9), rgba(15, 50, 25, 0.9));
+            border-color: #4caf50;
+            cursor: default;
+            color: #fff;
+        }
+
+        .word-card.found:hover {
+            transform: none;
+        }
+
+        .suggestions-panel {
+            background: linear-gradient(135deg, rgba(25, 10, 40, 0.95), rgba(15, 10, 30, 0.95));
+            border-radius: 10px;
+            padding: 18px;
+            backdrop-filter: blur(15px);
+            width: 350px;
+            max-height: 410px;
+            overflow-y: auto;
+            border: 1px solid rgba(70, 40, 110, 0.5);
+            box-shadow: 0 4px 12px rgba(40, 20, 70, 0.3);
+        }
+
+        /* Custom Scrollbar Styling */
+        .suggestions-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .suggestions-panel::-webkit-scrollbar-track {
+            background: rgba(20, 10, 35, 0.3);
+            border-radius: 4px;
+        }
+
+        .suggestions-panel::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, rgba(80, 50, 120, 0.8), rgba(60, 40, 100, 0.8));
+            border-radius: 4px;
+            border: 1px solid rgba(100, 70, 140, 0.4);
+        }
+
+        .suggestions-panel::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, rgba(100, 70, 140, 0.9), rgba(80, 60, 120, 0.9));
+        }
+
+        /* Firefox scrollbar */
+        .suggestions-panel {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(80, 50, 120, 0.8) rgba(20, 10, 35, 0.3);
+        }
+
+        .suggestions-title {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #d0c0e0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .suggestion-item {
+            background: linear-gradient(135deg, rgba(30, 15, 45, 0.9), rgba(20, 10, 35, 0.9));
+            border: 1px solid rgba(80, 50, 120, 0.6);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.12s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .suggestion-item:hover {
+            background: linear-gradient(135deg, rgba(40, 25, 55, 0.95), rgba(30, 20, 45, 0.95));
+            transform: translateX(2px);
+            box-shadow: 0 2px 6px rgba(50, 30, 80, 0.3);
+            border-color: rgba(100, 70, 140, 0.8);
+        }
+
+        .suggestion-item.removing {
+            animation: slideOutRight 0.15s ease-in-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes slideOutRight {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+                max-height: 60px;
+                margin-bottom: 6px;
+                padding: 8px;
+            }
+            50% {
+                transform: translateX(15px);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateX(50px);
+                opacity: 0;
+                max-height: 0;
+                margin-bottom: 0;
+                padding: 0;
+            }
+        }
+
+        .suggestion-rank {
+            font-weight: bold;
+            color: #d0c0e0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 0.85em;
+        }
+
+        .suggestion-words {
+            margin: 3px 0;
+            color: #e0e0e0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 0.8em;
+        }
+
+        .suggestion-score {
+            font-size: 0.7em;
+            color: #b0a0c0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .result-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            padding: 17px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            z-index: 10000;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            animation: resultPopup 1.25s ease-in-out forwards;
+            pointer-events: auto;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            backdrop-filter: blur(2px);
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes resultPopup {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.7);
+            }
+            15% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.02);
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            85% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+        }
+
+        .result-correct {
+            background: linear-gradient(135deg, rgba(20, 80, 35, 0.95), rgba(15, 70, 25, 0.95));
+            border: 2px solid #4caf50;
+            color: #fff;
+        }
+
+        .result-one-away {
+            background: linear-gradient(135deg, rgba(120, 90, 20, 0.95), rgba(100, 70, 15, 0.95));
+            border: 2px solid #d4af37;
+            color: #fff;
+        }
+
+        .result-incorrect {
+            background: linear-gradient(135deg, rgba(120, 20, 35, 0.95), rgba(100, 15, 25, 0.95));
+            border: 2px solid #f44336;
+            color: #fff;
+        }
+
+        .result-completion {
+            background: linear-gradient(135deg, rgba(50, 30, 90, 0.95), rgba(35, 20, 75, 0.95));
+            border: 2px solid #9c6adc;
+            color: #fff;
+            font-size: 1.05em;
+            animation: completionPopup 1.25s ease-in-out forwards;
+        }
+
+        @keyframes completionPopup {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.7);
+            }
+            15% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.02);
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.95);
+            }
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 0.9em;
+            margin: 30px 0;
+            color: #b0a0c0;
+        }
+
+        .game-stats {
+            background: linear-gradient(135deg, rgba(25, 10, 40, 0.9), rgba(15, 10, 30, 0.9));
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 18px;
+            text-align: center;
+            border: 1px solid rgba(70, 40, 110, 0.5);
+            box-shadow: 0 2px 8px rgba(40, 20, 70, 0.3);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        .groups-found {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        .group-indicator {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(30, 15, 45, 0.9), rgba(20, 10, 35, 0.9));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid rgba(80, 50, 120, 0.6);
+            color: #b0b0b0;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            transition: all 0.15s ease;
+            font-size: 0.8em;
+        }
+
+        .group-indicator.found {
+            background: linear-gradient(135deg, rgba(20, 60, 35, 0.9), rgba(15, 50, 25, 0.9));
+            border-color: #4caf50;
+            color: #fff;
+            box-shadow: 0 2px 6px rgba(20, 60, 35, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                gap: 13px;
+            }
+            
+            .suggestions-panel {
+                width: 100%;
+                max-width: 510px;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .word-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            body {
+                transform: scale(0.9);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-overlay" id="popupOverlay"></div>
+    <div class="container" id="mainContainer">
+        <h1>Connections - by Yiming Su</h1>
+        
+        <div class="game-info intro-mode" id="gameInfo">
+            <div class="game-controls">
+                <label for="gameNumber">Game #:</label>
+                <input type="number" id="gameNumber" min="0" max="379" value="1">
+                <button onclick="loadRandomGame()">Load Random Game</button>
+            </div>
+            <div class="stats-display">
+                <span id="turnsCounter">Turns: 0</span> | 
+                <span id="groupsCounter">Groups: 0/4</span>
+            </div>
+        </div>
+
+        <div class="main-content hidden" id="mainContent">
+            <div class="game-area">
+                <div class="word-grid" id="wordGrid">
+                    <!-- Words will be populated here -->
+                </div>
+                
+                <div class="groups-found">
+                    <div class="group-indicator" id="group1">1</div>
+                    <div class="group-indicator" id="group2">2</div>
+                    <div class="group-indicator" id="group3">3</div>
+                    <div class="group-indicator" id="group4">4</div>
+                </div>
+
+                <div class="game-stats">
+                    <button onclick="submitGuess()" id="submitBtn" disabled style="padding: 10px 15px; font-size: 0.85em; margin-right: 12px;">Submit Guess (Select 4 words)</button>
+                    <button onclick="clearSelection()" id="clearBtn" style="padding: 10px 15px; font-size: 0.85em;">Clear Selection</button>
+                </div>
+            </div>
+
+            <div class="suggestions-panel">
+                <div id="suggestionsList">
+                    <div class="suggestions-title">Suggestions</div>
+                    <div class="loading">Load a game to see suggestions!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="game_logic.js"></script>
+    <script src="connections_game.js"></script>
+</body>
+</html>
