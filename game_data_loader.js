@@ -14,10 +14,33 @@ class GameDataLoader {
      */
     async initialize() {
         try {
-            const response = await fetch('data/games_index.json');
-            if (!response.ok) {
-                throw new Error(`Failed to load games index: ${response.statusText}`);
+            // Try multiple possible paths for GitHub Pages compatibility
+            const possiblePaths = [
+                'data/games_index.json',
+                './data/games_index.json',
+                '/ConnectionsAI/data/games_index.json'
+            ];
+            
+            let response;
+            let lastError;
+            
+            for (const path of possiblePaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        console.log(`Successfully loaded games index from: ${path}`);
+                        break;
+                    }
+                } catch (error) {
+                    lastError = error;
+                    console.warn(`Failed to load from ${path}:`, error.message);
+                }
             }
+            
+            if (!response || !response.ok) {
+                throw new Error(`Failed to load games index from any path. Last error: ${lastError?.message || 'Unknown error'}`);
+            }
+            
             this.gamesIndex = await response.json();
             console.log(`Initialized with ${this.gamesIndex.total_games} games available`);
             return true;
@@ -63,10 +86,30 @@ class GameDataLoader {
         try {
             // Load game data from JSON file
             const gameInfo = this.gamesIndex.games[gameNumber];
-            const response = await fetch(`data/${gameInfo.filename}`);
             
-            if (!response.ok) {
-                throw new Error(`Failed to load game ${gameNumber}: ${response.statusText}`);
+            // Try multiple possible paths for GitHub Pages compatibility
+            const possiblePaths = [
+                `data/${gameInfo.filename}`,
+                `./data/${gameInfo.filename}`,
+                `/ConnectionsAI/data/${gameInfo.filename}`
+            ];
+            
+            let response;
+            let lastError;
+            
+            for (const path of possiblePaths) {
+                try {
+                    response = await fetch(path);
+                    if (response.ok) {
+                        break;
+                    }
+                } catch (error) {
+                    lastError = error;
+                }
+            }
+            
+            if (!response || !response.ok) {
+                throw new Error(`Failed to load game ${gameNumber} from any path. Status: ${response?.status}. Last error: ${lastError?.message || 'Unknown error'}`);
             }
 
             const gameData = await response.json();
