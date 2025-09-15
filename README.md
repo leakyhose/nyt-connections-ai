@@ -1,46 +1,86 @@
-# Connections AI
+# ConnectionsAI
 
-A bot that solves NYT Connections games.
+A bot that solves NYT Connections games, featuring both web-based gameplay and development tools.
 
 ## Overview
 
 This application presents 16 words that form 4 groups of 4 connected words each. The AI identifies the groups it sees as the best guesses, with the player able to choose out of the ranked options it produces.
 
+The project includes both a web interface for playing the game and development tools for creating and analyzing game data.
+
 ## Project Structure
 
 ```
-ConnectionsAI/
-├── index.html              # Main game interface
+ConnectionsAI-Unified/
+├── index.html              # Main web game interface
 ├── connections_game.js     # Game state management and UI logic
-├── game_logic.js          # AI algorithms for suggestion generation
+├── game_logic.js          # AI algorithms for the web interface
 ├── game_data_loader.js    # Client-side data loading system
-└── data/                  # Game data files
-    ├── games_index.json   # Index of available games
-    └── game_*.json        # Individual game data files
+├── _config.yml            # GitHub Pages configuration
+├── data/                  # Game data files (JSON format)
+│   ├── games_index.json   # Index of all available games
+│   └── game_*.json        # Individual game data files
+├── fasttext/              # Machine learning data
+│   ├── word_data.npy      # Word lists for each game (NumPy format)
+│   └── data.npy           # Adjacency matrices (NumPy format)
+├── extract/               # Word extraction tools
+│   ├── extract.py         # Word extraction utilities
+│   └── full_words.txt     # Master word list
+└── tools/                 # Development and utility tools
+    ├── data-generation/   # Data creation and processing tools
+    │   ├── game_master.py         # Core AI algorithms and calculations
+    │   ├── generate_outcomes.py   # Game outcome generation
+    │   ├── genetic_optimization.py # Genetic algorithm optimization
+    │   └── convert_data.py        # NumPy to JSON converter
+    └── pygame-ui/         # Desktop visualization tools
+        └── scene.py       # Pygame-based game visualizer
 ```
 
-### AI Calculation Method
+## Quick Start
+
+### Web Interface
+Open `index.html` in a web browser to play the game. The web interface is also deployable via GitHub Pages.
+
+For a better local experience, run the included web server:
+```bash
+python server.py
+```
+This will start a local server at `http://localhost:8000` with API endpoints for dynamic game loading.
+
+### Development Tools
+Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+Run the setup script:
+```bash
+python setup.py
+```
+
+## AI Calculation Method
 
 The AI suggestions are generated using two primary algorithms:
 
-#### Density Calculation
+### Density Calculation
 Measures internal connectivity within a subset of words:
 ```
 density = sum(adjacency_values_within_subset) / (subset_size^2)
 ```
 
-#### Conductance Calculation  
+### Conductance Calculation  
 Measures how well a subset is separated from the rest:
 ```
 conductance = 1 - external_connections / (2 * internal_connections + external_connections)
 ```
 
-### Word Similarity Data
+## Word Similarity Data
 
 The adjacency matrix values are derived from FastText word embeddings, representing semantic similarity between word pairs. Values range from 0 to 1, where higher values indicate stronger semantic relationships.
 
-### Data Format
-Game data is stored in JSON format:
+## Data Format
+
+Game data is stored in JSON format for the web interface:
 ```json
 {
   "game_number": 0,
@@ -49,16 +89,116 @@ Game data is stored in JSON format:
 }
 ```
 
-### Weighting System
+The development tools use NumPy format for faster processing, which can be converted to JSON using the provided conversion script.
+
+## Weighting System
+
 The current implementation uses empirically determined weights:
 - Density weight: 0.744
 - Conductance weight: 0.060
 
-These values were optimized for the specific word similarity data used in the game.
+These values were optimized using genetic algorithms for the specific word similarity data.
 
-### Limitations
+## File Descriptions
+
+### Web Interface
+
+#### index.html
+Main game interface for GitHub Pages. Features a 4x4 word grid display, AI suggestion ranking system, interactive word selection, and game progression tracking.
+
+#### server.py
+Local web server for running the game with dynamic data loading. Provides API endpoints for game data and serves the web interface at `http://localhost:8000`.
+
+#### connections_game.js
+Handles game state management and UI interactions including word selection, game state persistence, UI updates and animations, and integration with AI suggestions.
+
+#### game_logic.js
+Client-side AI algorithm implementation with functions for density calculation, conductance measurement, suggestion generation, and priority ranking.
+
+#### game_data_loader.js
+Manages asynchronous loading of game data with JSON game file loading, data caching for performance, and error handling for missing games.
+
+### Data Files
+
+#### data/games_index.json
+Master index of all available games containing game numbers and filenames. Auto-generated by convert_data.py.
+
+#### data/game_*.json
+Individual game data files in JSON format containing game number, word lists, and adjacency matrices.
+
+#### fasttext/word_data.npy
+Word lists for each game in NumPy format. Used as source data for JSON conversion.
+
+#### fasttext/data.npy
+Adjacency matrices with word similarities in NumPy format. Core data for AI calculations.
+
+### Development Tools
+
+#### tools/data-generation/game_master.py
+Core AI algorithms and calculations with JIT-compiled functions for density and conductance calculation, priority queue generation, and solution validation.
+
+#### tools/data-generation/convert_data.py
+Converts NumPy data files to JSON format for web deployment. Run from project root:
+```bash
+python tools/data-generation/convert_data.py
+```
+
+#### tools/data-generation/generate_outcomes.py
+Generates game outcomes and statistics for analyzing AI performance across multiple games.
+
+#### tools/data-generation/genetic_optimization.py
+Optimizes AI weights using genetic algorithms to find optimal density and conductance weight combinations.
+
+#### tools/pygame-ui/scene.py
+Desktop visualization tool for watching the AI solve games in real-time. Run from project root:
+```bash
+python tools/pygame-ui/scene.py
+```
+
+#### extract/extract.py
+Word extraction and preprocessing utilities for processing word lists from various sources.
+
+#### extract/full_words.txt
+Master word list used for game generation. One word per line format.
+
+## Development Workflow
+
+### Adding New Games
+1. Add words to extract/full_words.txt
+2. Run data generation tools to create NumPy files
+3. Use convert_data.py to generate JSON files
+4. New games automatically appear in the web interface
+
+### Modifying AI Algorithms
+1. Edit algorithms in tools/data-generation/game_master.py
+2. Test with tools/pygame-ui/scene.py for visualization
+3. Use genetic_optimization.py to find optimal weights
+4. Update weights in both game_logic.js and scene.py
+
+### Web Interface Updates
+1. Modify HTML/CSS in index.html
+2. Update game logic in connections_game.js or game_logic.js
+3. Test locally, then commit for automatic GitHub Pages deployment
+
+## Requirements
+
+### Web Interface
+Modern web browser with JavaScript enabled. No additional dependencies required.
+
+### Development Tools
+- Python 3.7+
+- NumPy
+- Numba (for performance optimization)
+- Pygame and pygame_gui (for visualization)
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Limitations
+
 - AI suggestions are based on semantic similarity only
-- Does not account for literal connections (eg. Words ending in -ing), relying on purely semantics.
+- Does not account for literal connections or word patterns
 - Performance depends on quality of underlying word embedding data
 - May struggle with proper nouns or domain-specific terminology
-
