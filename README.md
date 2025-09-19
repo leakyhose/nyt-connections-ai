@@ -58,6 +58,17 @@ Run the setup script:
 python setup.py
 ```
 
+### Automation Tools
+Test the game solver on a subset of games:
+```bash
+node test_solver.js
+```
+
+Run the game solver on all available games:
+```bash
+node game_solver.js
+```
+
 ## AI Calculation Method
 
 The AI suggestions are generated using two primary algorithms:
