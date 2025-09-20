@@ -1,7 +1,3 @@
-/**
- * Connections Game - Main JavaScript Interface
- */
-
 class ConnectionsGame {
     constructor() {
         this.gameLogic = new GameLogic();
@@ -13,20 +9,18 @@ class ConnectionsGame {
         this.foundGroups = 0;
         this.turns = 0;
         this.weights = [0.7441864013671875, 0.06005859375];
-        this.triedSuggestions = new Set(); // Track tried suggestions to remove them
+        this.triedSuggestions = new Set();
         
         this.initializeEventListeners();
     }
 
     initializeEventListeners() {
-        // Word card selection
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('word-card') && !e.target.classList.contains('found')) {
                 this.toggleWordSelection(e.target);
             }
         });
 
-        // Suggestion clicks
         document.addEventListener('click', (e) => {
             if (e.target.closest('.suggestion-item')) {
                 this.selectSuggestion(e.target.closest('.suggestion-item'));

@@ -1,5 +1,5 @@
 # GitHub Pages Configuration
-# This file enables GitHub Pages for this repository
+theme: minima
 
 # Include JSON data files
 include:
@@ -14,4 +14,3 @@ exclude:
   - "convert_data.py"
   - "server.py"
   - "main.py"
-  - "README_original.md"

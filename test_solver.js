@@ -1,7 +1,3 @@
-/**
- * Test script for the Connections Game Solver
- */
-
 const GameSolver = require('./game_solver');
 
 class GameSolverTester {
@@ -13,7 +9,7 @@ class GameSolverTester {
         const allGames = this.solver.getAvailableGames();
         const testGames = allGames.slice(0, maxGames);
         
-        console.log(`Testing solver on first ${testGames.length} games: [${testGames.join(', ')}]`);
+        console.log(`Testing solver on ${testGames.length} games: [${testGames.join(', ')}]`);
         console.log('='.repeat(60));
         
         const results = [];

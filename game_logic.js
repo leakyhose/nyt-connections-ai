@@ -1,20 +1,13 @@
-/**
- * Simplified game logic for Connections AI - JavaScript version
- */
-
 class GameLogic {
     constructor() {
         this.correctSets = [
-            new Set([0, 1, 2, 3]),      // First group
-            new Set([4, 5, 6, 7]),      // Second group  
-            new Set([8, 9, 10, 11]),    // Third group
-            new Set([12, 13, 14, 15])   // Fourth group
+            new Set([0, 1, 2, 3]),
+            new Set([4, 5, 6, 7]),
+            new Set([8, 9, 10, 11]),
+            new Set([12, 13, 14, 15])
         ];
     }
 
-    /**
-     * Calculate the density of connections within a subset of nodes
-     */
     calcDensity(arr, adj) {
         let total = 0;
         for (let i of arr) {
@@ -24,10 +17,6 @@ class GameLogic {
         }
         return total / (arr.length * arr.length);
     }
-
-    /**
-     * Calculate the conductance of a subset of nodes
-     */
     calcConductance(arr, adj) {
         let outside = 0;
         let inside = 0;

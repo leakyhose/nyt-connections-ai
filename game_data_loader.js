@@ -1,21 +1,12 @@
-/**
- * Client-side Game Data Loader for GitHub Pages
- * Replaces server-side API with direct JSON file loading
- */
-
 class GameDataLoader {
     constructor() {
         this.gamesIndex = null;
-        this.gameCache = new Map(); // Cache loaded games
+        this.gameCache = new Map();
         this.fastGames = [2,4,5,9,11,15,20,21,23,24,29,31,35,36,44,45,46,48,50,52,53,54,55,56,65,69,71,72,75,79,80,85,91,92,93,95,97,99,101,102,105,106,107,111,113,114,116,117,120,122,123,124,125,130,132,134,138,140,141,143,145,146,149,150,152,153,156,162,163,167,176,178,179,185,186,188,189,191,192,193,201,203,208,210,211,213,217,221,222,228,229,231,235,236,237,242,243,244,245,247,248,250,254,256,259,260,261,263,264,265,267,269,273,274,275,277,284,286,288,289,291,296,297,298,299,300,301,302,308,311,312,317,320,325,327,331,336,337,338,339,341,345,346,348,350,351,356,357,359,361,364,367,370,373,377];
     }
 
-    /**
-     * Initialize the data loader by loading the games index
-     */
     async initialize() {
         try {
-            // Try multiple possible paths for GitHub Pages compatibility
             const possiblePaths = [
                 'data/games_index.json',
                 './data/games_index.json',

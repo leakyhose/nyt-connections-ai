@@ -1,4 +1,4 @@
-# Python-specific files (not needed for GitHub Pages)
+# Python development files
 *.py
 *.pyc
 __pycache__/

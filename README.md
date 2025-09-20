@@ -1,10 +1,10 @@
-# ConnectionsAI
+# ConnectionsAI - Enhanced Edition
 
-A bot that solves NYT Connections games, featuring both web-based gameplay and development tools.
+An intelligent bot that solves NYT Connections games with advanced AI algorithms, featuring both web-based gameplay and comprehensive development tools.
 
 ## Overview
 
-This application presents 16 words that form 4 groups of 4 connected words each. The AI identifies the groups it sees as the best guesses, with the player able to choose out of the ranked options it produces.
+This application presents 16 words that form 4 groups of 4 connected words each. The AI identifies the most promising groups using sophisticated graph theory algorithms, with players able to choose from ranked suggestions.
 
 The project includes both a web interface for playing the game and development tools for creating and analyzing game data.
 

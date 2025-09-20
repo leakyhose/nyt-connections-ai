@@ -1,8 +1,3 @@
-"""
-Simple web server for Connections Game
-Serves the HTML interface and provides API endpoints for game data
-"""
-
 import json
 import os
 from http.server import HTTPServer, SimpleHTTPRequestHandler
