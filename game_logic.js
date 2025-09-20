@@ -1,4 +1,5 @@
 class GameLogic {
+    // ===== INITIALIZATION =====
     constructor() {
         this.correctSets = [
             new Set([0, 1, 2, 3]),
@@ -8,6 +9,7 @@ class GameLogic {
         ];
     }
 
+    // ===== CORE METRICS =====
     calcDensity(arr, adj) {
         let total = 0;
         for (let i of arr) {
@@ -17,6 +19,7 @@ class GameLogic {
         }
         return total / (arr.length * arr.length);
     }
+
     calcConductance(arr, adj) {
         let outside = 0;
         let inside = 0;
@@ -37,9 +40,7 @@ class GameLogic {
         return 1 - outside / ((2 * inside) + outside);
     }
 
-    /**
-     * Generate all combinations of r elements from array
-     */
+    // ===== COMBINATORIAL UTILITIES =====
     combinations(array, r) {
         const result = [];
         
@@ -60,9 +61,7 @@ class GameLogic {
         return result;
     }
 
-    /**
-     * Generate priority queue for all combinations of four available nodes
-     */
+    // ===== SUGGESTION GENERATION =====
     genPriorityQueue(adj, avail, weights) {
         const suggestions = [];
         const combinations = this.combinations(avail, 4);
@@ -85,9 +84,6 @@ class GameLogic {
         return suggestions;
     }
 
-    /**
-     * Generate priority queue of trios linked to the given subset
-     */
     linkPriorityQueue(arr, adj, weights) {
         const suggestions = [];
         const combinations = this.combinations(arr, 3);
@@ -131,9 +127,7 @@ class GameLogic {
         return suggestions;
     }
 
-    /**
-     * Remove connections in the adjacency matrix for a given set of indices
-     */
+    // ===== GAME VALIDATION & MATRIX OPERATIONS =====
     purge(adj, indices) {
         const newAdj = adj.map(row => [...row]); // Deep copy
         
@@ -147,10 +141,6 @@ class GameLogic {
         return newAdj;
     }
 
-    /**
-     * Check if the input array corresponds to one of the correct answers
-     * Returns: 1 = correct, 0 = one away, -1 = incorrect
-     */
     check(guess) {
         const guessSet = new Set(guess);
 

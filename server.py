@@ -7,9 +7,11 @@ from pathlib import Path
 
 
 class ConnectionsHTTPRequestHandler(SimpleHTTPRequestHandler):
+    # ===== INITIALIZATION =====
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=Path(__file__).parent, **kwargs)
     
+    # ===== REQUEST HANDLING =====
     def do_GET(self):
         parsed_path = urllib.parse.urlparse(self.path)
         
@@ -20,6 +22,7 @@ class ConnectionsHTTPRequestHandler(SimpleHTTPRequestHandler):
                 self.path = '/index.html'
             super().do_GET()
     
+    # ===== API HANDLING =====
     def handle_game_api(self, parsed_path):
         try:
             path_parts = parsed_path.path.split('/')
@@ -39,6 +42,7 @@ class ConnectionsHTTPRequestHandler(SimpleHTTPRequestHandler):
             print(f"Error handling API request: {e}")
             self.send_error_response(500, f"Server error: {str(e)}")
     
+    # ===== DATA LOADING =====
     def load_game_data(self, game_number):
         try:
             word_data_path = Path("fasttext/word_data.npy")
@@ -66,6 +70,7 @@ class ConnectionsHTTPRequestHandler(SimpleHTTPRequestHandler):
             print(f"Error loading game data for game {game_number}: {e}")
             return None
     
+    # ===== RESPONSE HANDLING =====
     def send_json_response(self, data):
         response = json.dumps(data).encode('utf-8')
         
@@ -95,6 +100,7 @@ class ConnectionsHTTPRequestHandler(SimpleHTTPRequestHandler):
         print(f"{self.address_string()} - {format % args}")
 
 
+# ===== SERVER MANAGEMENT =====
 def run_server(port=8000):
     """Run the web server on the specified port."""
     server_address = ('', port)

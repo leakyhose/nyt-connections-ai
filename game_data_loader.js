@@ -1,4 +1,5 @@
 class GameDataLoader {
+    // ===== INITIALIZATION =====
     constructor() {
         this.gamesIndex = null;
         this.gameCache = new Map();
@@ -42,9 +43,7 @@ class GameDataLoader {
         }
     }
 
-    /**
-     * Get the total number of available games
-     */
+    // ===== GAME METADATA =====
     getTotalGames() {
         return this.gamesIndex ? this.gamesIndex.total_games : 0;
     }
@@ -131,9 +130,6 @@ class GameDataLoader {
         }
     }
 
-    /**
-     * Get a random game number
-     */
     getRandomGameNumber() {
         if (!this.gamesIndex || this.fastGames.length === 0) {
             return 0;
@@ -142,9 +138,7 @@ class GameDataLoader {
         return this.fastGames[randomIndex];
     }
 
-    /**
-     * Preload multiple games for better performance
-     */
+    // ===== PERFORMANCE OPTIMIZATION =====
     async preloadGames(gameNumbers) {
         const promises = gameNumbers.map(async (gameNumber) => {
             if (!this.gameCache.has(gameNumber) && this.isValidGameNumber(gameNumber)) {

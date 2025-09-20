@@ -1,4 +1,4 @@
-# ConnectionsAI - Enhanced Edition
+# ConnectionsAI
 
 An intelligent bot that solves NYT Connections games with advanced AI algorithms, featuring both web-based gameplay and comprehensive development tools.
 

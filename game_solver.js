@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+// ===== GAME LOGIC (Node.js Version) =====
 class GameLogic {
     constructor() {
         this.correctSets = [
@@ -180,13 +181,15 @@ class GameLogic {
     }
 }
 
+// ===== AUTOMATED SOLVER =====
 class GameSolver {
     constructor() {
         this.gameLogic = new GameLogic();
-        this.weights = [0.7441864013671875, 0.06005859375]; // Same weights as web version
-        this.maxTries = 100; // Safety limit
+        this.weights = [0.7441864013671875, 0.06005859375];
+        this.maxTries = 100;
     }
 
+    // ===== DATA LOADING =====
     loadGameData(gameNumber) {
         try {
             const filePath = path.join(__dirname, 'data', `game_${gameNumber}.json`);
@@ -201,6 +204,7 @@ class GameSolver {
         }
     }
 
+    // ===== SOLVING ENGINE =====
     solveGame(gameData, gameNumber) {
         const words = gameData.words;
         let adjacencyMatrix = gameData.adjacency_matrix;
@@ -279,6 +283,7 @@ class GameSolver {
         };
     }
 
+    // ===== UTILITY FUNCTIONS =====
     getAvailableGames() {
         const dataDir = path.join(__dirname, 'data');
         const files = fs.readdirSync(dataDir);

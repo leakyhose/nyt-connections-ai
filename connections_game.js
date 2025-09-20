@@ -1,4 +1,5 @@
 class ConnectionsGame {
+    // ===== INITIALIZATION =====
     constructor() {
         this.gameLogic = new GameLogic();
         this.currentGame = null;
@@ -27,6 +28,8 @@ class ConnectionsGame {
             }
         });
     }
+
+    // ===== GAME LOADING & SETUP =====
 
     async loadGame(gameNumber = 1) {
         try {
@@ -86,6 +89,7 @@ class ConnectionsGame {
         }
     }
 
+    // ===== UI DISPLAY & INTERACTION =====
     updateDisplay() {
         const grid = document.getElementById('wordGrid');
         grid.innerHTML = '';
@@ -164,6 +168,7 @@ class ConnectionsGame {
         this.updateSubmitButton();
     }
 
+    // ===== GAME LOGIC & SUBMISSION =====
     async submitGuess() {
         if (this.selectedWords.length !== 4) return;
         
@@ -194,6 +199,7 @@ class ConnectionsGame {
         this.updateCounters();
     }
 
+    // ===== RESULT HANDLING =====
     handleCorrectGuess() {
         // Remove correct words from available indices immediately
         this.availableIndices = this.availableIndices.filter(i => !this.selectedWords.includes(i));
@@ -373,6 +379,7 @@ class ConnectionsGame {
         this.updateSubmitButton();
     }
 
+    // ===== AI SUGGESTIONS =====
     generateSuggestionsWithThinking() {
         if (this.availableIndices.length === 0) return;
         
@@ -496,6 +503,7 @@ class ConnectionsGame {
         });
     }
 
+    // ===== UTILITY & UI HELPERS =====
     updateCounters() {
         document.getElementById('turnsCounter').textContent = `Turns: ${this.turns}`;
         document.getElementById('groupsCounter').textContent = `Groups: ${this.foundGroups}/4`;
