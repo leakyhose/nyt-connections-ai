@@ -33,7 +33,7 @@ class ConnectionsGame {
 
     async loadGame(gameNumber = 1) {
         try {
-            console.log(`Loading game ${gameNumber}`);
+            // Load game data
             
             // Trigger intro animation if in intro mode
             this.exitIntroMode();
@@ -61,7 +61,7 @@ class ConnectionsGame {
             this.updateCounters();
             this.resetGroupIndicators();
             
-            console.log('Game loaded');
+            // Game loaded successfully
             
         } catch (error) {
             console.error('Error loading game:', error);
@@ -133,15 +133,9 @@ class ConnectionsGame {
         const clearBtn = document.getElementById('clearBtn');
         const gameStats = document.getElementById('gameStats');
         
-        console.log('updateSubmitButton called, selectedWords:', this.selectedWords.length);
-        console.log('gameStats element:', gameStats);
-        
-        // Show the game stats box when any words are selected
         if (this.selectedWords.length > 0) {
-            console.log('Showing game stats box');
             gameStats.classList.remove('hidden');
         } else {
-            console.log('Hiding game stats box');
             gameStats.classList.add('hidden');
         }
         
@@ -563,7 +557,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     game = new ConnectionsGame();
-    console.log('Game ready');
+    // Game initialization complete
     
     // Check if this is the first visit and show info modal
     if (typeof checkFirstVisit === 'function') {

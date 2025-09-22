@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 
-// ===== GAME LOGIC (Node.js Version) =====
 class GameLogic {
     constructor() {
         this.correctSets = [
@@ -181,7 +180,6 @@ class GameLogic {
     }
 }
 
-// ===== AUTOMATED SOLVER =====
 class GameSolver {
     constructor() {
         this.gameLogic = new GameLogic();
@@ -189,7 +187,6 @@ class GameSolver {
         this.maxTries = 100;
     }
 
-    // ===== DATA LOADING =====
     loadGameData(gameNumber) {
         try {
             const filePath = path.join(__dirname, 'data', `game_${gameNumber}.json`);
@@ -204,7 +201,6 @@ class GameSolver {
         }
     }
 
-    // ===== SOLVING ENGINE =====
     solveGame(gameData, gameNumber) {
         const words = gameData.words;
         let adjacencyMatrix = gameData.adjacency_matrix;
@@ -213,67 +209,41 @@ class GameSolver {
         let tries = 0;
         const triedSuggestions = new Set();
         
-        console.log(`\nSolving Game ${gameNumber}: [${words.join(', ')}]`);
-        
         while (foundGroups < 4 && tries < this.maxTries) {
             tries++;
             
-            // Generate suggestions using the same logic as the web interface
             const suggestions = this.gameLogic.genPriorityQueue(
                 adjacencyMatrix, 
                 availableIndices, 
                 this.weights
             );
 
-            // Filter out tried suggestions
             const filteredSuggestions = suggestions.filter(suggestion => {
                 const suggestionKey = [...suggestion.words].sort().join(',');
                 return !triedSuggestions.has(suggestionKey);
             });
 
             if (filteredSuggestions.length === 0) {
-                console.log(`Game ${gameNumber}: No more suggestions available after ${tries} tries`);
                 break;
             }
 
-            // Try the best suggestion
             const bestSuggestion = filteredSuggestions[0];
             const guess = bestSuggestion.words;
             const suggestionKey = [...guess].sort().join(',');
             
-            console.log(`  Try ${tries}: [${guess.map(i => words[i]).join(', ')}] (Score: ${bestSuggestion.score.toFixed(3)})`);
-            
-            // Check the guess
             const result = this.gameLogic.check(guess);
             
             if (result === 1) {
-                // Correct guess
-                console.log(`    Correct`);
                 foundGroups++;
-                
-                // Remove correct words from available indices
                 availableIndices = availableIndices.filter(i => !guess.includes(i));
-                
-                // Update adjacency matrix
                 adjacencyMatrix = this.gameLogic.purge(adjacencyMatrix, guess);
-                
-                // Clear tried suggestions for fresh start
                 triedSuggestions.clear();
-                
-            } else if (result === 0) {
-                // One away
-                console.log(`    One away`);
-                triedSuggestions.add(suggestionKey);
-                
             } else {
-                // Incorrect
-                console.log(`    Incorrect`);
                 triedSuggestions.add(suggestionKey);
             }
         }
         
         const solved = foundGroups === 4;
-        console.log(`Game ${gameNumber} ${solved ? 'SOLVED' : 'FAILED'} in ${tries} tries (${foundGroups}/4 groups found)`);
         
         return {
             gameNumber,
@@ -283,7 +253,6 @@ class GameSolver {
         };
     }
 
-    // ===== UTILITY FUNCTIONS =====
     getAvailableGames() {
         const dataDir = path.join(__dirname, 'data');
         const files = fs.readdirSync(dataDir);
@@ -301,7 +270,6 @@ class GameSolver {
 
     async runAllGames() {
         const gameNumbers = this.getAvailableGames();
-        console.log(`Found ${gameNumbers.length} games to solve`);
         
         const results = [];
         let solvedCount = 0;
@@ -310,7 +278,6 @@ class GameSolver {
         for (const gameNumber of gameNumbers) {
             const gameData = this.loadGameData(gameNumber);
             if (!gameData) {
-                console.log(`Skipping game ${gameNumber} - failed to load`);
                 continue;
             }
             
@@ -323,54 +290,38 @@ class GameSolver {
             totalTries += result.tries;
         }
         
-        // Generate summary report
-        console.log('\n' + '='.repeat(60));
-        console.log('FINAL RESULTS SUMMARY');
-        console.log('='.repeat(60));
-        console.log(`Total games: ${results.length}`);
-        console.log(`Games solved: ${solvedCount} (${(solvedCount/results.length*100).toFixed(1)}%)`);
-        console.log(`Games failed: ${results.length - solvedCount}`);
-        console.log(`Total tries: ${totalTries}`);
-        console.log(`Average tries per game: ${(totalTries/results.length).toFixed(2)}`);
+        console.log(`Results: ${solvedCount}/${results.length} games solved (${(solvedCount/results.length*100).toFixed(1)}%)`);
+        console.log(`Average tries: ${(totalTries/results.length).toFixed(2)}`);
         
         if (solvedCount > 0) {
             const solvedTries = results.filter(r => r.solved).map(r => r.tries);
             const avgSolvedTries = solvedTries.reduce((a, b) => a + b, 0) / solvedTries.length;
-            console.log(`Average tries for solved games: ${avgSolvedTries.toFixed(2)}`);
-            console.log(`Min tries: ${Math.min(...solvedTries)}`);
-            console.log(`Max tries: ${Math.max(...solvedTries)}`);
+            console.log(`Solved games average: ${avgSolvedTries.toFixed(2)} tries`);
         }
-        
-        // Save detailed results to file
-        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const resultsFile = `game_results_${timestamp}.json`;
-        fs.writeFileSync(resultsFile, JSON.stringify({
-            summary: {
-                totalGames: results.length,
-                gamesSolved: solvedCount,
-                gamesFailed: results.length - solvedCount,
-                totalTries: totalTries,
-                averageTriesPerGame: totalTries/results.length,
-                timestamp: new Date().toISOString()
-            },
-            results: results
-        }, null, 2));
-        
-        console.log('\nDetailed results saved to: ' + resultsFile);
         
         return results;
     }
+
+    calculateMedian(arr) {
+        const sorted = [...arr].sort((a, b) => a - b);
+        const mid = Math.floor(sorted.length / 2);
+        return sorted.length % 2 === 0 
+            ? (sorted[mid - 1] + sorted[mid]) / 2 
+            : sorted[mid];
+    }
+
+    calculateStdDev(arr) {
+        const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+        const variance = arr.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / arr.length;
+        return Math.sqrt(variance);
+    }
 }
 
-// Main execution
 if (require.main === module) {
     const solver = new GameSolver();
     solver.runAllGames()
-        .then(() => {
-            console.log('\nSolver completed successfully!');
-        })
         .catch((error) => {
-            console.error('Error running solver:', error);
+            console.error('Error:', error);
             process.exit(1);
         });
 }

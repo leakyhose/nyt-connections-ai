@@ -1,9 +1,8 @@
 class GameDataLoader {
-    // ===== INITIALIZATION =====
     constructor() {
         this.gamesIndex = null;
         this.gameCache = new Map();
-        this.fastGames = [2,4,5,9,11,15,20,21,23,24,29,31,35,36,44,45,46,48,50,52,53,54,55,56,65,69,71,72,75,79,80,85,91,92,93,95,97,99,101,102,105,106,107,111,113,114,116,117,120,122,123,124,125,130,132,134,138,140,141,143,145,146,149,150,152,153,156,162,163,167,176,178,179,185,186,188,189,191,192,193,201,203,208,210,211,213,217,221,222,228,229,231,235,236,237,242,243,244,245,247,248,250,254,256,259,260,261,263,264,265,267,269,273,274,275,277,284,286,288,289,291,296,297,298,299,300,301,302,308,311,312,317,320,325,327,331,336,337,338,339,341,345,346,348,350,351,356,357,359,361,364,367,370,373,377];
+        this.availableGames = null;
     }
 
     async initialize() {
@@ -15,27 +14,21 @@ class GameDataLoader {
             ];
             
             let response;
-            let lastError;
-            
             for (const path of possiblePaths) {
                 try {
                     response = await fetch(path);
-                    if (response.ok) {
-                        console.log(`Successfully loaded games index from: ${path}`);
-                        break;
-                    }
+                    if (response.ok) break;
                 } catch (error) {
-                    lastError = error;
-                    console.warn(`Failed to load from ${path}:`, error.message);
+                    continue;
                 }
             }
             
             if (!response || !response.ok) {
-                throw new Error(`Failed to load games index from any path. Last error: ${lastError?.message || 'Unknown error'}`);
+                throw new Error('Failed to load games index');
             }
             
             this.gamesIndex = await response.json();
-            console.log(`Initialized with ${this.gamesIndex.total_games} games available`);
+            await this.loadAvailableGames();
             return true;
         } catch (error) {
             console.error('Failed to initialize game data loader:', error);
@@ -43,42 +36,35 @@ class GameDataLoader {
         }
     }
 
-    // ===== GAME METADATA =====
+    async loadAvailableGames() {
+        this.availableGames = [
+            1, 2, 4, 12, 19, 22, 26, 27, 31, 32, 35, 39, 40, 43, 48, 49, 53, 54, 55, 58, 61, 62, 64, 65, 68, 69, 71, 72, 74, 78, 82, 84, 86, 89, 90, 94, 95, 99, 100, 104, 105, 108, 114, 118, 120, 127, 128, 131, 132, 133, 135, 136, 140, 142, 145, 147, 148, 149, 152, 157, 161, 163, 165, 172, 176, 180, 182, 187, 190, 193, 195, 196, 199, 202, 205, 206, 209, 212, 214, 216, 218, 221, 223, 224, 225, 227, 229, 230, 233, 236, 237, 239, 242, 243, 245, 250, 251, 257, 261, 263, 264, 265, 267, 268, 269, 270, 274, 275, 279, 281, 286, 295, 296, 298, 299, 305, 308, 309, 312, 317, 318, 323, 324, 325, 326, 329, 335, 336, 339, 340, 342, 343, 346, 351, 352, 357, 361, 363, 364, 365, 367, 368, 369, 371, 372, 374, 377, 379, 381, 382, 383, 384, 386, 389, 391, 392, 393, 394, 400, 403, 407, 408, 409, 410, 413, 414, 417, 418, 420, 421, 423, 424, 430, 431, 435, 444, 446, 447, 453, 454, 456, 457, 459, 460, 461, 469, 471, 476, 478, 479, 480, 481, 485, 486, 487, 489, 490, 493, 496, 497, 498, 501, 503, 504, 505, 510, 511, 512, 513, 515, 516, 518, 522, 524, 525, 527, 529, 531, 532, 534, 535, 541, 542, 543, 545, 551, 555, 556, 557, 564, 565, 566, 567, 568, 569, 572, 575, 578, 583, 586, 590, 593, 595, 596, 600, 601, 602, 603, 605, 610, 612, 613, 614, 615, 618, 620, 621, 623, 626, 632, 634, 635, 638, 639
+        ];
+    }
+
     getTotalGames() {
         return this.gamesIndex ? this.gamesIndex.total_games : 0;
     }
 
-    /**
-     * Check if a game number is valid
-     */
     isValidGameNumber(gameNumber) {
         return gameNumber >= 0 && gameNumber < this.getTotalGames();
     }
 
-    /**
-     * Load game data for a specific game number
-     */
     async loadGame(gameNumber) {
-        // Validate game number
         if (!this.gamesIndex) {
-            throw new Error('Game data loader not initialized. Call initialize() first.');
+            throw new Error('Game data loader not initialized');
         }
 
         if (!this.isValidGameNumber(gameNumber)) {
-            throw new Error(`Invalid game number: ${gameNumber}. Must be between 0 and ${this.getTotalGames() - 1}`);
+            throw new Error(`Invalid game number: ${gameNumber}`);
         }
 
-        // Check cache first
         if (this.gameCache.has(gameNumber)) {
-            console.log(`Loading game ${gameNumber} from cache`);
             return this.gameCache.get(gameNumber);
         }
 
         try {
-            // Load game data from JSON file
             const gameInfo = this.gamesIndex.games[gameNumber];
-            
-            // Try multiple possible paths for GitHub Pages compatibility
             const possiblePaths = [
                 `data/${gameInfo.filename}`,
                 `./data/${gameInfo.filename}`,
@@ -86,42 +72,30 @@ class GameDataLoader {
             ];
             
             let response;
-            let lastError;
-            
             for (const path of possiblePaths) {
                 try {
                     response = await fetch(path);
-                    if (response.ok) {
-                        break;
-                    }
+                    if (response.ok) break;
                 } catch (error) {
-                    lastError = error;
+                    continue;
                 }
             }
             
             if (!response || !response.ok) {
-                throw new Error(`Failed to load game ${gameNumber} from any path. Status: ${response?.status}. Last error: ${lastError?.message || 'Unknown error'}`);
+                throw new Error(`Failed to load game ${gameNumber}`);
             }
 
             const gameData = await response.json();
             
-            // Validate game data structure
             if (!gameData.words || !gameData.adjacency_matrix) {
+                throw new Error(`Invalid game data for game ${gameNumber}`);
+            }
+
+            if (gameData.words.length !== 16 || gameData.adjacency_matrix.length !== 16) {
                 throw new Error(`Invalid game data structure for game ${gameNumber}`);
             }
 
-            if (gameData.words.length !== 16) {
-                throw new Error(`Invalid number of words: expected 16, got ${gameData.words.length}`);
-            }
-
-            if (gameData.adjacency_matrix.length !== 16) {
-                throw new Error(`Invalid adjacency matrix size: expected 16x16`);
-            }
-
-            // Cache the game data
             this.gameCache.set(gameNumber, gameData);
-            
-            console.log(`Loaded game ${gameNumber}: [${gameData.words.join(', ')}]`);
             return gameData;
 
         } catch (error) {
@@ -131,40 +105,30 @@ class GameDataLoader {
     }
 
     getRandomGameNumber() {
-        if (!this.gamesIndex || this.fastGames.length === 0) {
+        if (!this.availableGames || this.availableGames.length === 0) {
             return 0;
         }
-        const randomIndex = Math.floor(Math.random() * this.fastGames.length);
-        return this.fastGames[randomIndex];
+        const randomIndex = Math.floor(Math.random() * this.availableGames.length);
+        return this.availableGames[randomIndex];
     }
 
-    // ===== PERFORMANCE OPTIMIZATION =====
     async preloadGames(gameNumbers) {
         const promises = gameNumbers.map(async (gameNumber) => {
             if (!this.gameCache.has(gameNumber) && this.isValidGameNumber(gameNumber)) {
                 try {
                     await this.loadGame(gameNumber);
                 } catch (error) {
-                    console.warn(`Failed to preload game ${gameNumber}:`, error.message);
+                    // Silent fail
                 }
             }
         });
-
         await Promise.all(promises);
-        console.log(`Preloaded ${promises.length} games`);
     }
 
-    /**
-     * Clear the game cache to free memory
-     */
     clearCache() {
         this.gameCache.clear();
-        console.log('Game cache cleared');
     }
 
-    /**
-     * Get cache statistics
-     */
     getCacheStats() {
         return {
             totalGames: this.getTotalGames(),
@@ -174,5 +138,4 @@ class GameDataLoader {
     }
 }
 
-// Create global instance
 window.gameDataLoader = new GameDataLoader();

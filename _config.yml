@@ -1,16 +1,3 @@
-# GitHub Pages Configuration
 theme: minima
-
-# Include JSON data files
-include:
-  - "data/*.json"
-
-# Exclude development files
-exclude:
-  - "*.py"
-  - "__pycache__/"
-  - "fasttext/*.npy"
-  - "extract/"
-  - "convert_data.py"
-  - "server.py"
-  - "main.py"
+include: ["data/*.json"]
+exclude: ["*.py", "__pycache__/", "extract/"]

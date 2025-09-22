@@ -1,5 +1,4 @@
 class GameLogic {
-    // ===== INITIALIZATION =====
     constructor() {
         this.correctSets = [
             new Set([0, 1, 2, 3]),
@@ -9,7 +8,6 @@ class GameLogic {
         ];
     }
 
-    // ===== CORE METRICS =====
     calcDensity(arr, adj) {
         let total = 0;
         for (let i of arr) {
@@ -40,7 +38,6 @@ class GameLogic {
         return 1 - outside / ((2 * inside) + outside);
     }
 
-    // ===== COMBINATORIAL UTILITIES =====
     combinations(array, r) {
         const result = [];
         
@@ -61,7 +58,6 @@ class GameLogic {
         return result;
     }
 
-    // ===== SUGGESTION GENERATION =====
     genPriorityQueue(adj, avail, weights) {
         const suggestions = [];
         const combinations = this.combinations(avail, 4);
@@ -127,7 +123,6 @@ class GameLogic {
         return suggestions;
     }
 
-    // ===== GAME VALIDATION & MATRIX OPERATIONS =====
     purge(adj, indices) {
         const newAdj = adj.map(row => [...row]); // Deep copy
         
