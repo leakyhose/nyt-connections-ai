@@ -1,4 +1,4 @@
-# ConnectionsAI
+# NYT CONNECTIONS AI
 
 An AI solver for NYT Connections puzzles using graph theory and word embeddings.
 
