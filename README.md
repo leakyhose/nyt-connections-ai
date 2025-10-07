@@ -1,89 +1,104 @@
 # ConnectionsAI
 
-An AI solver for NYT Connections puzzles using graph theory algorithms.
+An AI solver for NYT Connections puzzles using graph theory and word embeddings.
 
-## Quick Start
+## Usage
 
 ### Web Interface
-Open `index.html` in a browser or run:
+
+Start a local HTTP server:
+
 ```bash
-python server.py
+python3 -m http.server 8000
 ```
-Visit `http://localhost:8000`
 
-### Game Solver
+Open `http://localhost:8000` in your browser. Load games by number or randomly, and view AI-generated suggestions ranked by likelihood.
+
+### CLI Solver
+
+Run the solver against all games:
+
 ```bash
-node game_solver.js
+node cli-solver.js
 ```
 
-## Structure
+Output shows success rate, average attempts, and performance statistics across 640+ games.
+
+## Project Structure
+
 ```
-ConnectionsAI/
-├── index.html              # Web interface
-├── connections_game.js     # Game logic
-├── game_logic.js          # AI algorithms
-├── game_data_loader.js    # Data loading
-├── game_solver.js         # Command-line solver
-├── server.py              # Local web server
-├── data/                  # Game data (JSON)
-├── extract/               # Word extraction tools
-│   ├── extract.py         # Word processing utilities
-│   └── full_words.txt     # Master word list
-└── _config.yml            # GitHub Pages config
+├── index.html          # Web interface
+├── styles.css          # UI styling
+├── ai-solver.js        # Core AI algorithms (shared)
+├── web-app.js          # Web application logic
+├── cli-solver.js       # Command-line batch solver
+└── data/               # Game files (640+ JSON files)
+    ├── games_index.json
+    └── game_*.json
 ```
 
-## AI Method
+## How It Works
 
-The solver uses two algorithms:
+The AI uses graph theory to evaluate potential word groupings based on semantic similarity.
 
-**Density:** Internal connectivity within word groups
+### Core Algorithm
+
+Each game contains 16 words with a pre-computed adjacency matrix representing semantic similarity between word pairs. The similarity values come from FastText word embeddings, measuring how often words appear in similar contexts.
+
+Two metrics evaluate each possible 4-word combination:
+
+**Density** - Internal group cohesion
 ```
-density = sum(adjacency_values) / (group_size^2)
+density = Σ(adjacency[i][j]) / n²
+```
+Measures how strongly words within a group relate to each other.
+
+**Conductance** - External separation
+```
+conductance = 1 - external_edges / (2 * internal_edges + external_edges)
+```
+Measures how distinct the group is from remaining words.
+
+### Ranking
+
+Groups are scored using weighted combination:
+```
+score = w1 * conductance + w2 * density
 ```
 
-**Conductance:** Separation between groups
-```
-conductance = 1 - external_connections / (2 * internal + external)
-```
+Current weights `[0.744, 0.060]` were optimized using a genetic algorithm trained on historical game data. The AI generates all possible 4-word combinations, scores them, and ranks by likelihood.
 
-Word similarity data comes from FastText embeddings. Current weights: density (0.744), conductance (0.060).
+### Solving Process
+
+The AI iteratively:
+1. Generates ranked suggestions from remaining words
+2. Attempts the highest-scoring combination
+3. If correct, removes those words and repeats
+4. If incorrect, marks that combination as tried and moves to next suggestion
+5. Continues until all 4 groups found or max attempts reached
+
+### Limitations
+
+The AI struggles with:
+- Proper nouns and names
+- Wordplay categories (homophones, rhymes)
+- Letter/spelling-based connections
+- Categories requiring cultural knowledge
+
+These rely on non-semantic patterns that word embeddings cannot capture. On such games, the AI may require 40+ attempts as it exhausts semantic groupings.
 
 ## Data Format
 
-Games are stored as JSON:
+Each game file contains:
+
 ```json
 {
-  "game_number": 0,
-  "words": ["WORD1", "WORD2", ...],
-  "adjacency_matrix": [[similarity_scores]]
+  "game_number": 42,
+  "words": ["WORD1", "WORD2", ..., "WORD16"],
+  "adjacency_matrix": [
+    [1.0, 0.45, 0.23, ...],
+    [0.45, 1.0, 0.67, ...],
+    ...
+  ]
 }
 ```
-
-## Files
-
-**Web Interface:**
-- `index.html` - Main game interface
-- `server.py` - Local web server with API
-- `connections_game.js` - Game state and UI
-- `game_logic.js` - Client-side AI algorithms
-- `game_data_loader.js` - Data loading and caching
-
-**Tools:**
-- `game_solver.js` - Command-line solver
-- `extract/extract.py` - Word extraction utilities
-- `extract/full_words.txt` - Master word list
-
-**Data:**
-- `data/games_index.json` - Game index
-- `data/game_*.json` - Individual game files
-
-## Requirements
-
-**Web:** Modern browser with JavaScript
-**Tools:** Python 3.7+ (no external packages required)
-
-## Adding Games
-
-1. Add words to `extract/full_words.txt`
-2. Use extraction tools to process data
-3. Games appear automatically in web interface
