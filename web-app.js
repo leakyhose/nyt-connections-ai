@@ -20,6 +20,57 @@ class WebApp {
         this.initializeModal();
     }
 
+
+    
+
+    async loadGlobalStats() {
+        try {
+            const docRef = db.collection('global-stats').doc('counter');
+            const doc = await docRef.get();
+            
+            if (doc.exists) {
+                const data = doc.data();
+                document.getElementById('globalCounter').textContent = 
+                    (data.totalGamesPlayed || 0).toLocaleString();
+            } else {
+                document.getElementById('globalCounter').textContent = '0';
+            }
+        } catch (error) {
+            console.error('Error loading stats:', error);
+            document.getElementById('globalCounter').textContent = '---';
+        }
+    }
+
+    async incrementGlobalStats() {
+        try {
+            const docRef = db.collection('global-stats').doc('counter');
+            
+            // Try to update existing document
+            await db.runTransaction(async (transaction) => {
+                const doc = await transaction.get(docRef);
+                
+                if (doc.exists) {
+                    const newCount = (doc.data().totalGamesPlayed || 0) + 1;
+                    transaction.update(docRef, {
+                        totalGamesPlayed: newCount,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                } else {
+                    // Create document if it doesn't exist
+                    transaction.set(docRef, {
+                        totalGamesPlayed: 1,
+                        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            });
+            
+            // Reload stats to show updated count
+            await this.loadGlobalStats();
+            
+        } catch (error) {
+            console.error('Error incrementing stats:', error);
+        }
+    }
     initializeModal() {
         const infoBtn = document.getElementById('infoBtn');
         if (infoBtn) {
@@ -444,30 +495,32 @@ class WebApp {
     }
 
     showCompletionPopup() {
-        this.showOverlay();
-        
-        const mistakes = this.turns - 4;
-        const popup = document.createElement('div');
-        popup.className = 'result-message result-completion';
-        
-        let message = 'Game Complete!';
-        if (mistakes === 0) message = 'Perfect Game!';
-        else if (mistakes <= 2) message = 'Great Job!';
-        else if (mistakes <= 4) message = 'Good Work!';
-        
-        popup.innerHTML = `
-            <div style="font-size: 1.2em; margin-bottom: 10px;">${message}</div>
-            <div>Total turns: ${this.turns}</div>
-            <div>Mistakes: ${mistakes}</div>
-        `;
-        
-        document.body.appendChild(popup);
-        
-        setTimeout(() => {
-            popup.remove();
-            this.hideOverlay();
-            this.returnToIntroMode();
-        }, 1250);
+    this.showOverlay();
+    
+    const mistakes = this.turns - 4;
+    const popup = document.createElement('div');
+    popup.className = 'result-message result-completion';
+    
+    let message = 'Game Complete!';
+    if (mistakes === 0) message = 'Perfect Game!';
+    else if (mistakes <= 2) message = 'Great Job!';
+    else if (mistakes <= 4) message = 'Good Work!';
+    
+    popup.innerHTML = `
+        <div style="font-size: 1.2em; margin-bottom: 10px;">${message}</div>
+        <div>Total turns: ${this.turns}</div>
+        <div>Mistakes: ${mistakes}</div>
+    `;
+    
+    document.body.appendChild(popup);
+    
+    this.incrementGlobalStats();
+    
+    setTimeout(() => {
+        popup.remove();
+        this.hideOverlay();
+        this.returnToIntroMode();
+    }, 1250);
     }
 
     shuffleArray(array) {
@@ -561,7 +614,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     const success = await app.data.initialize();
     if (!success) {
-        document.getElementById('wordGrid').innerHTML = '<div class="loading">Error: Failed to load game data</div>';
+        document.getElementById('wordGrid').innerHTML = 
+            '<div class="loading">Error: Failed to load game data</div>';
         return;
     }
+    
+    await app.loadGlobalStats();
 });

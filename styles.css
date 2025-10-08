@@ -730,3 +730,16 @@ button:disabled {
         min-height: 50px;
     }
 }
+
+.global-stats {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9em;
+    margin-top: 8px;
+    font-weight: 300;
+}
+
+.global-stats span {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+}
