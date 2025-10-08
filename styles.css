@@ -302,11 +302,9 @@ button:disabled {
 /* Word Grid */
 .word-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 110px);
     gap: 10px;
     margin-bottom: 20px;
-    width: 100%;
-    max-width: 480px;
     justify-self: center;
 }
 
@@ -314,19 +312,24 @@ button:disabled {
     background: linear-gradient(135deg, rgba(30, 15, 45, 0.9), rgba(20, 10, 35, 0.9));
     border: 2px solid rgba(80, 50, 120, 0.6);
     border-radius: 8px;
-    padding: 16px;
+    padding: 8px;
     text-align: center;
     font-size: 0.95em;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.15s ease;
     backdrop-filter: blur(8px);
-    min-height: 65px;
+    width: 110px;
+    height: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #e0e0e0;
     font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    overflow: hidden;
+    word-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.2;
 }
 
 .word-card:hover {

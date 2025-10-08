@@ -252,6 +252,16 @@ class WebApp {
             const card = document.createElement('div');
             card.className = 'word-card';
             card.dataset.index = item.index;
+            
+            const wordLength = item.word.length;
+            if (wordLength > 12) {
+                card.style.fontSize = '0.7em';
+            } else if (wordLength > 10) {
+                card.style.fontSize = '0.8em';
+            } else if (wordLength > 8) {
+                card.style.fontSize = '0.85em';
+            }
+            
             card.textContent = item.word;
             
             if (this.selectedIndices.includes(item.index)) {
