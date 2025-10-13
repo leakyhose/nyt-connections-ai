@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConnectionsAI - by Yiming Su</title>
+    <title>NYT Connections AI - by Yiming Su</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="popup-overlay" id="popupOverlay"></div>
-    
-    <button class="info-button" id="infoBtn" title="About ConnectionsAI">i</button>
-    
+
+    <button class="info-button" id="infoBtn" title="About NYT Connections AI">i</button>
+
     <div class="container" id="mainContainer">
         <div class="title-container">
             <h1>NYT Connections AI - by Yiming Su</h1>
@@ -54,14 +54,14 @@
         <div class="info-modal-content">
             <button class="close-button">&times;</button>
             
-            <h2>Welcome to ConnectionsAI!</h2>
+            <h2>Welcome to NYT Connections AI!</h2>
             <p> Hey! I am Yiming, and I made this bot over 2024/2025 to solve the popular NYT game Connections. This is a web demonstration of this project, so feel free to play around!</p>
 
             <h3>How to use?</h3>
-            <p> To use ConnectionsAI, load a game either through number or through random. These real Connections games will then be analyzed by the AI, and its suggestions shown on the side. Click on the suggestion to select it. You can choose amongst the AI's top choices, or make your own!</p>
+            <p> To use NYT Connections AI, load a game either through number or through random. These real Connections games will then be analyzed by the AI, and its suggestions shown on the side. Click on the suggestion to select it. You can choose amongst the AI's top choices, or make your own!</p>
             <h3>How does it work??</h3>
-            <p> ConnectionsAI is a bot that uses a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where the context of words is compared with other words and given values. Those values can then be compared to one another to determine how similar the contexts, and thus the words, are.</p>
-            
+            <p> NYT Connections AI is a bot that uses a process of semantic reasoning, logic, and trial-and-error to solve Connections. It uses a concept called Word Vectors, where the context of words is compared with other words and given values. Those values can then be compared to one another to determine how similar the contexts, and thus the words, are.</p>
+
             <p> For example, the words "monarch" and "ruler" would often be seen with similar surrounding words, such as "king," "crown," "throne," etc. Thus, the AI can determine that they must be pretty similar. Words like "grass" and "bird" may have some similar contexts, like "nature" and "environment," but would also have many different contexts. Thus, the AI can tell that they are kind of similar, but not as similar as "king" and "crown."</p>
             
             <p> Using this, the AI then ranks several groups of words, using how similar the words are to the other words in the group (density) and how dissimilar they are to outsiders (conductance). With weights applied to each of these values, calculated with a genetic algorithm, we get an AI that can play Connections pretty well!</p>
