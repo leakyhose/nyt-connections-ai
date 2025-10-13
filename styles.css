@@ -249,6 +249,12 @@ input {
     border: 1px solid rgba(120, 90, 160, 0.6);
 }
 
+#gameNumber {
+    color: #f0f0f0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
 button {
     background: linear-gradient(135deg, rgba(90, 60, 130, 0.9), rgba(70, 45, 110, 0.9));
     color: #f0f0f0;

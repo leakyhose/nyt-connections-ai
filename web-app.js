@@ -177,6 +177,7 @@ class WebApp {
             this.adjacencyMatrix = gameData.adjacency_matrix;
             
             this.currentGameNumber = gameNumber;
+            document.getElementById('gameNumber').textContent = gameNumber;
                 this.availableIndices = Array.from({length: 16}, (_, i) => i);
                 this.selectedIndices = [];
                 this.turns = 0;
@@ -195,7 +196,7 @@ class WebApp {
 
     loadRandomGame() {
         const randomGame = this.data.getRandomGameNumber();
-        document.getElementById('gameNumber').value = randomGame;
+        document.getElementById('gameNumber').textContent = randomGame;
         this.loadGame(randomGame);
     }
 
