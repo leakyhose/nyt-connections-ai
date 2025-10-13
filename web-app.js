@@ -9,7 +9,6 @@ class WebApp {
         this.adjacencyMatrix = [];
         this.availableIndices = [];
         this.selectedIndices = [];
-        this.foundGroups = 0;
         this.turns = 0;
         
         // AI configuration
@@ -153,14 +152,12 @@ class WebApp {
     }
 
     initializeEventListeners() {
-        // Word card selection
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('word-card') && !e.target.classList.contains('found')) {
                 this.toggleWordSelection(e.target);
             }
         });
 
-        // Suggestion selection
         document.addEventListener('click', (e) => {
             if (e.target.closest('.suggestion-item')) {
                 this.selectSuggestion(e.target.closest('.suggestion-item'));
@@ -180,16 +177,14 @@ class WebApp {
             this.adjacencyMatrix = gameData.adjacency_matrix;
             
             this.currentGameNumber = gameNumber;
-            this.availableIndices = Array.from({length: 16}, (_, i) => i);
-            this.selectedIndices = [];
-            this.foundGroups = 0;
-            this.turns = 0;
+                this.availableIndices = Array.from({length: 16}, (_, i) => i);
+                this.selectedIndices = [];
+                this.turns = 0;
             this.triedSuggestions.clear();
             
             this.updateDisplay();
             this.generateSuggestionsWithAnimation();
             this.updateCounters();
-            this.resetGroupIndicators();
             
         } catch (error) {
             console.error('Error loading game:', error);
@@ -229,13 +224,11 @@ class WebApp {
     resetGame() {
         this.currentGameNumber = null;
         this.words = [];
-        this.selectedIndices = [];
-        this.foundGroups = 0;
-        this.turns = 0;
+    this.selectedIndices = [];
+    this.turns = 0;
         this.triedSuggestions.clear();
         
-        document.getElementById('turnsCounter').textContent = 'Turns: 0';
-        document.getElementById('groupsCounter').textContent = 'Groups: 0/4';
+    document.getElementById('turnsCounter').textContent = 'Turns: 0';
         document.getElementById('wordGrid').innerHTML = '';
         document.getElementById('suggestionsList').innerHTML = 
             '<div class="suggestions-title">Suggestions</div><div class="loading">Load a game to see suggestions!</div>';
@@ -274,19 +267,6 @@ class WebApp {
 
     updateCounters() {
         document.getElementById('turnsCounter').textContent = `Turns: ${this.turns}`;
-        document.getElementById('groupsCounter').textContent = `Groups: ${this.foundGroups}/4`;
-    }
-
-    updateGroupIndicator(groupNumber) {
-        const indicator = document.getElementById(`group${groupNumber}`);
-        if (indicator) indicator.classList.add('found');
-    }
-
-    resetGroupIndicators() {
-        for (let i = 1; i <= 4; i++) {
-            const indicator = document.getElementById(`group${i}`);
-            if (indicator) indicator.classList.remove('found');
-        }
     }
 
     toggleWordSelection(card) {
@@ -356,14 +336,12 @@ class WebApp {
         this.availableIndices = this.availableIndices.filter(i => !this.selectedIndices.includes(i));
         this.adjacencyMatrix = this.ai.removeFoundWords(this.adjacencyMatrix, this.selectedIndices);
         
-        this.foundGroups++;
-        this.selectedIndices = [];
-        
-        this.updateDisplay();
-        this.updateGroupIndicator(this.foundGroups);
+    this.selectedIndices = [];
+
+    this.updateDisplay();
         this.updateSubmitButton();
         
-        if (this.foundGroups === 4) {
+        if (this.availableIndices.length === 0) {
             setTimeout(() => this.showCompletionPopup(), 2000);
         } else {
             this.generateSuggestionsWithAnimation();
@@ -561,7 +539,7 @@ class DataLoader {
             console.error('Failed to initialize data loader:', error);
             
             if (window.location.protocol === 'file:') {
-                alert('⚠️ Cannot load from file:// protocol\n\nRun a local server:\npython3 -m http.server 8000\n\nThen visit: http://localhost:8000');
+                alert('Cannot load from file:// protocol\n\nRun a local server:\npython3 -m http.server 8000\n\nThen visit: http://localhost:8000');
             }
             
             return false;
