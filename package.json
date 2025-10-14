@@ -1,0 +1,17 @@
+{
+  "name": "nyt-connections-ai",
+  "version": "1.0.0",
+  "description": "An AI solver for NYT Connections puzzles using graph theory and word embeddings",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["nyt", "connections", "ai", "puzzle", "solver"],
+  "author": "Yiming Su",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}

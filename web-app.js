@@ -1,3 +1,5 @@
+import ConnectionsAI from './ai-solver.js';
+
 class WebApp {
     constructor() {
         this.ai = new ConnectionsAI();
@@ -597,6 +599,10 @@ function submitGuess() {
 function clearSelection() {
     app.clearSelection();
 }
+
+window.loadRandomGame = loadRandomGame;
+window.submitGuess = submitGuess;
+window.clearSelection = clearSelection;
 
 document.addEventListener('DOMContentLoaded', async () => {
     app = new WebApp();
