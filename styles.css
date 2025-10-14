@@ -92,13 +92,13 @@ h2 {
 }
 
 .title-container.intro-mode h1 {
-    font-size: clamp(2rem, 12vw, 8rem);
+    font-size: clamp(2rem, 12vw, 5.5rem);
     text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
     margin-bottom: 0;
 }
 
 .title-container.intro-mode h2 {
-    font-size: clamp(1.2rem, 5vw, 3rem);
+    font-size: clamp(1.2rem, 5vw, 2.5rem);
 }
 
 .title-container.intro-mode .global-stats {
@@ -565,7 +565,7 @@ button:disabled {
     font-family: var(--font-primary);
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    animation: resultPopup 1.25s ease-in-out forwards;
+    animation: resultPopup 1.0s ease-in-out forwards;
     pointer-events: auto;
 }
 
@@ -581,7 +581,7 @@ button:disabled {
     z-index: 9999;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.16s ease;
     backdrop-filter: blur(2px);
 }
 
@@ -635,7 +635,7 @@ button:disabled {
     border: 2px solid #9c6adc;
     color: #fff;
     font-size: 1.05em;
-    animation: completionPopup 1.25s ease-in-out forwards;
+    animation: completionPopup 1.0s ease-in-out forwards;
 }
 
 @keyframes completionPopup {
@@ -680,6 +680,23 @@ button:disabled {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+@media (max-width: 1024px) and (min-width: 769px) {
+    h1 {
+        font-size: clamp(1.8rem, 6vw, 4rem) !important;
+    }
+    
+    .title-container.intro-mode h1 {
+        font-size: clamp(2.5rem, 9vw, 6rem) !important;
+    }
+    
+    h2 {
+        font-size: clamp(1.2rem, 3.5vw, 2rem) !important;
+    }
+    
+    .title-container.intro-mode h2 {
+        font-size: clamp(1.5rem, 4.5vw, 2.5rem) !important;
+    }
+}
 
 @media (max-width: 768px) {
     body {

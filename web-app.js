@@ -351,7 +351,7 @@ class WebApp {
         this.updateSubmitButton();
         
         if (this.availableIndices.length === 0) {
-            setTimeout(() => this.showCompletionPopup(), 2000);
+            setTimeout(() => this.showCompletionPopup(), 1000);
         } else {
             this.generateSuggestionsWithAnimation();
         }
@@ -384,8 +384,8 @@ class WebApp {
         
         this.showOverlay();
         
-        const thinkingDelay = Math.random() * 700 + 800;
-        const overlayDelay = Math.random() * 400 + 800;
+        const thinkingDelay = Math.random() * 560 + 640;
+        const overlayDelay = Math.random() * 320 + 640;
         
         setTimeout(() => this.generateSuggestions(), thinkingDelay);
         setTimeout(() => this.hideOverlay(), overlayDelay);
@@ -487,8 +487,10 @@ class WebApp {
         
         setTimeout(() => {
             popup.remove();
-            this.hideOverlay();
-        }, 1250);
+            if (this.availableIndices.length > 0) {
+                this.hideOverlay();
+            }
+        }, 1000);
     }
 
     showCompletionPopup() {
@@ -517,7 +519,7 @@ class WebApp {
         popup.remove();
         this.hideOverlay();
         this.returnToIntroMode();
-    }, 1250);
+    }, 1000);
     }
 
     shuffleArray(array) {
