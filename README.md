@@ -6,13 +6,23 @@ An AI solver for NYT Connections puzzles using graph theory and word embeddings.
 
 ### Web Interface
 
-Start a local HTTP server:
+You can play with the demonstration [here](https://leakyhose.github.io/nyt-connections-ai/).
+
+If you want to run it locally, you can install dependencies and start the development server:
 
 ```bash
-python3 -m http.server 8000
+npm install
+npm run dev
 ```
 
-Open `http://localhost:8000` in your browser. Load games by number or randomly, and view AI-generated suggestions ranked by likelihood.
+Open `http://localhost:3000/nyt-connections-ai/` in your browser. Load games by number or randomly, and view AI-generated suggestions ranked by likelihood.
+
+For production build:
+
+```bash
+npm run build
+npm run preview
+```
 
 ### CLI Solver
 
@@ -27,14 +37,16 @@ Output shows success rate, average attempts, and performance statistics across 6
 ## Project Structure
 
 ```
-├── index.html          # Web interface
-├── styles.css          # UI styling
-├── ai-solver.js        # Core AI algorithms (shared)
-├── web-app.js          # Web application logic
-├── cli-solver.js       # Command-line batch solver
-└── data/               # Game files (640+ JSON files)
-    ├── games_index.json
-    └── game_*.json
+├── public/
+│   ├── firebase-config.js  # Firebase initialization
+│   └── data/               # Individual Connections Game files (640+ JSON files)
+├── index.html              # Web interface
+├── styles.css              # UI styling
+├── ai-solver.js            # Core AI algorithms (shared)
+├── web-app.js              # Web application logic
+├── cli-solver.js           # Command-line batch solver
+├── vite.config.js          # Vite build configuration
+└── package.json            # Dependencies and scripts
 ```
 
 ## How It Works
