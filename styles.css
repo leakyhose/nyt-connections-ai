@@ -11,17 +11,8 @@
 
 body {
     font-family: var(--font-primary);
-    background: #050212;
-    background-image: 
-        radial-gradient(circle at 11% 7%, rgba(255,255,255,0.95) 0.3px, transparent 0.7px),
-        radial-gradient(circle at 83% 71%, rgba(255,255,255,0.7) 0.9px, transparent 1.3px),
-        radial-gradient(circle at 37% 94%, rgba(255,255,255,0.85) 0.5px, transparent 0.9px),
-        radial-gradient(circle at 67% 19%, rgba(255,255,255,0.6) 1.1px, transparent 1.6px),
-        radial-gradient(circle at 23% 58%, rgba(255,255,255,0.8) 0.4px, transparent 0.8px),
-        radial-gradient(circle at 89% 33%, rgba(255,255,255,0.9) 0.7px, transparent 1.1px),
-        radial-gradient(circle at 3% 82%, rgba(255,255,255,0.5) 0.6px, transparent 1px),
-        radial-gradient(circle at 51% 26%, rgba(255,255,255,0.75) 0.8px, transparent 1.2px);
-    background-size: 340px 290px, 480px 370px, 290px 520px, 410px 330px, 380px 450px, 320px 280px, 460px 390px, 350px 430px;
+    background: #000000;
+    position: relative;
     color: #e0e0e0;
     min-height: 100vh;
     display: flex;
@@ -30,6 +21,30 @@ body {
     justify-content: flex-start;
     padding: 20px;
     margin: 0;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at center,
+        rgba(168, 85, 247, 0.12) 0%,
+        rgba(168, 85, 247, 0.06) 20%,
+        transparent 60%
+    );
+    z-index: 0;
+    pointer-events: none;
+}
+
+body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    z-index: 1;
+    pointer-events: none;
 }
 
 body.intro-mode {
@@ -45,6 +60,8 @@ body.intro-mode {
     align-items: center;
     transform: scale(1.2);
     transform-origin: top center;
+    position: relative;
+    z-index: 10;
 }
 
 h1 {
