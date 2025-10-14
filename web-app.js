@@ -205,9 +205,12 @@ class WebApp {
     exitIntroMode() {
         const gameInfo = document.getElementById('gameInfo');
         const mainContent = document.getElementById('mainContent');
+        const titleContainer = document.querySelector('.title-container');
         
         if (gameInfo.classList.contains('intro-mode')) {
             gameInfo.classList.remove('intro-mode');
+            titleContainer.classList.remove('intro-mode');
+            document.body.classList.remove('intro-mode');
             setTimeout(() => mainContent.classList.remove('hidden'), 200);
         }
     }
@@ -215,11 +218,14 @@ class WebApp {
     returnToIntroMode() {
         const gameInfo = document.getElementById('gameInfo');
         const mainContent = document.getElementById('mainContent');
+        const titleContainer = document.querySelector('.title-container');
         
         mainContent.classList.add('hidden');
         
         setTimeout(() => {
             gameInfo.classList.add('intro-mode');
+            titleContainer.classList.add('intro-mode');
+            document.body.classList.add('intro-mode');
             this.resetGame();
         }, 300);
     }

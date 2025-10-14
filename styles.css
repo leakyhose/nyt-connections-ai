@@ -1,3 +1,8 @@
+:root {
+    --font-primary: 'Poppins', 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    --font-title: 'Poppins', 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +10,7 @@
 }
 
 body {
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     background: #050212;
     background-image: 
         radial-gradient(circle at 11% 7%, rgba(255,255,255,0.95) 0.3px, transparent 0.7px),
@@ -27,6 +32,11 @@ body {
     margin: 0;
 }
 
+body.intro-mode {
+    height: 100vh;
+    overflow: hidden;
+}
+
 .container {
     max-width: 1020px;
     width: 100%;
@@ -40,18 +50,60 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 12px;
-    font-size: 2.3em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    font-size: clamp(1.5rem, 8vw, 5rem);
     color: #e6d7ff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     position: relative;
-    display: inline-block;
+    display: block;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+h2 {
+    text-align: center;
+    font-size: clamp(1rem, 4vw, 2.5rem);
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: normal;
+    margin: 8px 0;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.title-container:not(.intro-mode) h2 {
+    display: none;
 }
 
 .title-container {
+    display:flex;
+    flex-direction: column;
     text-align: center;
     margin-bottom: 25px;
     margin-top: 15px;
     position: relative;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    align-items: center;
+}
+
+.title-container.intro-mode {
+    margin-top: 15vh;
+    margin-bottom: 5vh;
+    gap: 3vh;
+}
+
+.title-container.intro-mode h1 {
+    font-size: clamp(2rem, 12vw, 8rem);
+    text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
+    margin-bottom: 0;
+}
+
+.title-container.intro-mode h2 {
+    font-size: clamp(1.2rem, 5vw, 3rem);
+}
+
+.title-container.intro-mode .global-stats {
+    margin-top: 0;
+    font-size: 1.1em;
 }
 
 /* Info Button */
@@ -73,7 +125,7 @@ h1 {
     justify-content: center;
     transition: all 0.3s ease;
     box-shadow: 0 1px 3px rgba(60, 40, 100, 0.1);
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     z-index: 1000;
     pointer-events: auto;
 }
@@ -214,14 +266,35 @@ h1 {
 
 .game-info.intro-mode {
     max-width: 500px;
-    padding: 30px;
-    transform: scale(1.2);
-    margin: 50px auto;
+    padding: 40px 50px;
+    transform: scale(1);
+    margin: 0 auto;
     justify-content: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
 }
 
 .game-info.intro-mode .game-controls {
     justify-content: center;
+}
+
+.game-info.intro-mode .game-controls label,
+.game-info.intro-mode .game-controls #gameNumber {
+    display: none;
+}
+
+.game-info.intro-mode .game-controls button {
+    font-size: 1.8em;
+    padding: 25px 50px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(90, 60, 130, 0.5);
+    border: 2px solid rgba(160, 120, 200, 0.8);
+}
+
+.game-info.intro-mode .game-controls button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(110, 80, 150, 0.6);
 }
 
 .game-info.intro-mode .stats-display {
@@ -261,7 +334,7 @@ button {
     cursor: pointer;
     transition: all 0.15s ease;
     border: 1px solid rgba(120, 90, 160, 0.7);
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
 }
 
 button:hover {
@@ -335,7 +408,7 @@ button:disabled {
     align-items: center;
     justify-content: center;
     color: #e0e0e0;
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     overflow: hidden;
     word-wrap: break-word;
     hyphens: auto;
@@ -409,7 +482,7 @@ button:disabled {
     margin-bottom: 15px;
     text-align: center;
     color: #d0c0e0;
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
 }
 
 .suggestion-item {
@@ -460,21 +533,21 @@ button:disabled {
 .suggestion-rank {
     font-weight: bold;
     color: #d0c0e0;
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     font-size: 0.85em;
 }
 
 .suggestion-words {
     margin: 3px 0;
     color: #e0e0e0;
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     font-size: 0.8em;
 }
 
 .suggestion-score {
     font-size: 0.7em;
     color: #b0a0c0;
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
 }
 
 /* Result Popups */
@@ -489,7 +562,7 @@ button:disabled {
     font-weight: bold;
     text-align: center;
     z-index: 10000;
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     backdrop-filter: blur(15px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     animation: resultPopup 1.25s ease-in-out forwards;
@@ -603,7 +676,7 @@ button:disabled {
     text-align: center;
     border: 1px solid rgba(70, 40, 110, 0.5);
     box-shadow: 0 2px 8px rgba(40, 20, 70, 0.3);
-    font-family: 'Franklin Gothic', 'Helvetica Neue', Arial, sans-serif;
+    font-family: var(--font-primary);
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
@@ -619,13 +692,46 @@ button:disabled {
         padding: 0;
         max-width: 100%;
         width: 100%;
-        transform: scale(0.95) !important;
+        transform: scale(1) !important;
         transform-origin: top center;
     }
     
     h1 {
-        font-size: 1.8em !important;
-        margin-bottom: 15px;
+        font-size: clamp(1rem, 7vw, 2.5rem) !important;
+        margin-bottom: 10px;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    h2 {
+        font-size: clamp(0.9rem, 5vw, 1.5rem) !important;
+        max-width: 100%;
+        width: 100%;
+        padding: 0 10px;
+    }
+    
+    .title-container.intro-mode {
+        margin-top: 10vh;
+        margin-bottom: 5vh;
+        gap: 2vh;
+    }
+    
+    .title-container.intro-mode h1 {
+        font-size: clamp(1.5rem, 8vw, 3.5rem) !important;
+    }
+    
+    .title-container.intro-mode h2 {
+        font-size: clamp(0.9rem, 4vw, 1.5rem) !important;
+    }
+    
+    .title-container.intro-mode .global-stats {
+        font-size: clamp(0.8rem, 4vw, 1.2rem);
+    }
+    
+    .game-info.intro-mode .game-controls button {
+        font-size: clamp(1rem, 5vw, 1.5rem) !important;
+        padding: 18px 35px !important;
     }
     
     .main-content {
