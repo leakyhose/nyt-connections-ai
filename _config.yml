@@ -1,3 +1,0 @@
-theme: minima
-include: ["data/*.json"]
-exclude: ["*.py", "__pycache__/", "extract/"]
