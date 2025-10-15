@@ -101,6 +101,13 @@ class WebApp {
             }
         });
 
+        // Show modal automatically for first-time visitors
+        const hasSeenModal = localStorage.getItem('connectionsai-info-seen');
+        if (!hasSeenModal) {
+            // Small delay to ensure page is fully loaded
+            setTimeout(() => this.showInfoModal(), 500);
+        }
+
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const modal = document.getElementById('infoModal');
