@@ -21,7 +21,6 @@ body {
     justify-content: flex-start;
     padding: 20px;
     margin: 0;
-    overflow: hidden;
 }
 
 body::before {
@@ -64,7 +63,6 @@ body.intro-mode {
     display: flex;
     flex-direction: column;
     align-items: center;
-    transform: scale(1.2);
     transform-origin: top center;
     position: relative;
     z-index: 10;
@@ -703,6 +701,174 @@ button:disabled {
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+@media (min-width: 1025px) {
+    .container {
+        max-width: 1224px;
+    }
+
+    h1 {
+        font-size: clamp(1.8rem, 8vw, 6rem);
+        margin-bottom: 14.4px;
+    }
+
+    h2 {
+        font-size: clamp(1.2rem, 4vw, 3rem);
+        margin: 9.6px 0;
+    }
+
+    .title-container {
+        margin-bottom: 30px;
+        margin-top: 18px;
+    }
+
+    .title-container.intro-mode h1 {
+        font-size: clamp(2.4rem, 12vw, 6.6rem);
+    }
+
+    .title-container.intro-mode h2 {
+        font-size: clamp(1.44rem, 5vw, 3rem);
+    }
+
+    .title-container.intro-mode .global-stats {
+        font-size: 1.32em;
+    }
+
+    .game-info {
+        margin-bottom: 30px;
+        padding: 18px;
+        max-width: 1050px;
+    }
+
+    .game-info.intro-mode {
+        max-width: 600px;
+        padding: 48px 60px;
+    }
+
+    .game-info.intro-mode .game-controls button {
+        font-size: 2.16em;
+        padding: 30px 60px;
+        border-radius: 14.4px;
+    }
+
+    .game-controls {
+        gap: 18px;
+    }
+
+    input, button {
+        padding: 12px 18px;
+        font-size: 19.2px;
+        border-radius: 6px;
+    }
+
+    input {
+        width: 120px;
+    }
+
+    #gameNumber {
+        font-size: 19.2px;
+    }
+
+    .main-content {
+        gap: 30px;
+        max-width: 1050px;
+    }
+
+    .game-area {
+        max-width: 600px;
+        height: 492px;
+    }
+
+    .word-grid {
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .word-card {
+        border-radius: 9.6px;
+        padding: 9.6px;
+        font-size: 1.14em;
+        border-width: 2.4px;
+    }
+
+    .suggestions-panel {
+        border-radius: 12px;
+        padding: 21.6px;
+        width: 420px;
+        max-height: 492px;
+    }
+
+    .suggestions-title {
+        font-size: 1.32em;
+        margin-bottom: 18px;
+    }
+
+    .suggestion-item {
+        border-radius: 7.2px;
+        padding: 12px;
+        margin-bottom: 9.6px;
+    }
+
+    .suggestion-rank {
+        font-size: 1.02em;
+    }
+
+    .suggestion-words {
+        margin: 3.6px 0;
+        font-size: 0.96em;
+    }
+
+    .suggestion-score {
+        font-size: 0.84em;
+    }
+
+    .result-message {
+        padding: 20.4px 36px;
+        border-radius: 12px;
+        font-size: 1.44em;
+    }
+
+    .info-button {
+        width: 60px;
+        height: 60px;
+        font-size: 28.8px;
+        bottom: 24px;
+        right: 24px;
+    }
+
+    .info-modal-content {
+        max-width: 900px;
+        padding: 48px;
+        border-radius: 18px;
+    }
+
+    .info-modal h2 {
+        font-size: 2.64em;
+        margin-bottom: 30px;
+    }
+
+    .info-modal h3 {
+        font-size: 1.92em;
+        margin: 36px 0 18px 0;
+    }
+
+    .info-modal p {
+        line-height: 2.16;
+        margin-bottom: 24px;
+        font-size: 1.32em;
+    }
+
+    .close-button {
+        font-size: 28.8px;
+        top: 18px;
+        right: 24px;
+    }
+
+    .global-stats {
+        font-size: 1.08em;
+        margin-top: 9.6px;
+    }
+}
+
 @media (max-width: 1024px) and (min-width: 769px) {
     h1 {
         font-size: clamp(1.8rem, 6vw, 4rem) !important;
@@ -718,6 +884,64 @@ button:disabled {
     
     .title-container.intro-mode h2 {
         font-size: clamp(1.5rem, 4.5vw, 2.5rem) !important;
+    }
+}
+
+@media (max-height: 800px) {
+    .title-container.intro-mode {
+        margin-top: 8vh;
+        margin-bottom: 3vh;
+        gap: 2vh;
+    }
+
+    .title-container.intro-mode h1 {
+        font-size: clamp(1.8rem, 10vw, 4.5rem) !important;
+    }
+
+    .title-container.intro-mode h2 {
+        font-size: clamp(1rem, 4vw, 2rem) !important;
+    }
+
+    .title-container.intro-mode .global-stats {
+        font-size: 1em;
+    }
+
+    .game-info.intro-mode {
+        padding: 30px 40px;
+    }
+
+    .game-info.intro-mode .game-controls button {
+        font-size: 1.5em;
+        padding: 20px 40px;
+    }
+}
+
+@media (max-height: 650px) {
+    .title-container.intro-mode {
+        margin-top: 5vh;
+        margin-bottom: 2vh;
+        gap: 1.5vh;
+    }
+
+    .title-container.intro-mode h1 {
+        font-size: clamp(1.5rem, 8vw, 3.5rem) !important;
+    }
+
+    .title-container.intro-mode h2 {
+        font-size: clamp(0.9rem, 3.5vw, 1.6rem) !important;
+    }
+
+    .title-container.intro-mode .global-stats {
+        font-size: 0.9em;
+    }
+
+    .game-info.intro-mode {
+        padding: 25px 35px;
+    }
+
+    .game-info.intro-mode .game-controls button {
+        font-size: 1.3em;
+        padding: 18px 35px;
     }
 }
 
