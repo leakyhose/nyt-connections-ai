@@ -19,8 +19,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 20px;
+    padding: clamp(8px, 2vh, 20px);
     margin: 0;
+    overflow-y: auto;
 }
 
 body::before {
@@ -68,10 +69,16 @@ body.intro-mode {
     z-index: 10;
 }
 
+@media (min-width: 769px) {
+    .container {
+        transform: scale(0.9);
+    }
+}
+
 h1 {
     text-align: center;
     margin-bottom: 12px;
-    font-size: clamp(1.5rem, 8vw, 5rem);
+    font-size: clamp(1.5rem, min(8vw, 8vh), 5rem);
     color: #e6d7ff;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     position: relative;
@@ -82,7 +89,7 @@ h1 {
 
 h2 {
     text-align: center;
-    font-size: clamp(1rem, 4vw, 2.5rem);
+    font-size: clamp(1rem, min(4vw, 4vh), 2.5rem);
     color: rgba(255, 255, 255, 0.7);
     font-weight: normal;
     margin: 8px 0;
@@ -98,8 +105,8 @@ h2 {
     display:flex;
     flex-direction: column;
     text-align: center;
-    margin-bottom: 25px;
-    margin-top: 15px;
+    margin-bottom: clamp(10px, 2.5vh, 25px);
+    margin-top: clamp(8px, 1.5vh, 15px);
     position: relative;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
@@ -113,13 +120,13 @@ h2 {
 }
 
 .title-container.intro-mode h1 {
-    font-size: clamp(2rem, 12vw, 5.5rem);
+    font-size: clamp(2rem, min(12vw, 10vh), 5.5rem);
     text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
     margin-bottom: 0;
 }
 
 .title-container.intro-mode h2 {
-    font-size: clamp(1.2rem, 5vw, 2.5rem);
+    font-size: clamp(1.2rem, min(5vw, 4vh), 2.5rem);
 }
 
 .title-container.intro-mode .global-stats {
@@ -273,9 +280,9 @@ h2 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto 25px auto;
+    margin: 0 auto clamp(12px, 2.5vh, 25px) auto;
     background: linear-gradient(135deg, rgba(35, 15, 50, 0.9), rgba(25, 15, 40, 0.9));
-    padding: 15px;
+    padding: clamp(8px, 1.5vh, 15px);
     border-radius: 8px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(80, 50, 120, 0.4);
@@ -324,16 +331,16 @@ h2 {
 
 .game-controls {
     display: flex;
-    gap: 15px;
+    gap: clamp(8px, 1.5vh, 15px);
     align-items: center;
 }
 
 /* Form Elements */
 input, button {
-    padding: 10px 15px;
+    padding: clamp(6px, 1vh, 10px) clamp(10px, 1.5vh, 15px);
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: clamp(12px, min(16px, 2vh), 16px);
 }
 
 input {
@@ -375,7 +382,7 @@ button:disabled {
 /* Main Game Area */
 .main-content {
     display: flex;
-    gap: 25px;
+    gap: clamp(12px, 2.5vh, 25px);
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
@@ -397,7 +404,7 @@ button:disabled {
     flex-direction: column;
     align-items: center;
     max-width: 500px;
-    height: 410px;
+    height: clamp(300px, 45vh, 410px);
 }
 
 /* Word Grid */
@@ -406,8 +413,8 @@ button:disabled {
     height: 90%;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: clamp(5px, 1vh, 10px);
+    margin-bottom: clamp(10px, 2vh, 20px);
     justify-self: center;
     width: 100%;
 }
@@ -416,9 +423,9 @@ button:disabled {
     background: linear-gradient(135deg, rgba(30, 15, 45, 0.9), rgba(20, 10, 35, 0.9));
     border: 2px solid rgba(80, 50, 120, 0.6);
     border-radius: 8px;
-    padding: 8px;
+    padding: clamp(4px, 1vh, 8px);
     text-align: center;
-    font-size: 0.95em;
+    font-size: clamp(0.7em, min(0.95em, 1.5vh), 0.95em);
     font-weight: bold;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -465,10 +472,10 @@ button:disabled {
 .suggestions-panel {
     background: linear-gradient(135deg, rgba(25, 10, 40, 0.95), rgba(15, 10, 30, 0.95));
     border-radius: 10px;
-    padding: 18px;
+    padding: clamp(10px, 2vh, 18px);
     backdrop-filter: blur(15px);
     width: 350px;
-    max-height: 410px;
+    max-height: clamp(300px, 45vh, 410px);
     overflow-y: auto;
     border: 1px solid rgba(70, 40, 110, 0.5);
     box-shadow: 0 4px 12px rgba(40, 20, 70, 0.3);
@@ -499,8 +506,8 @@ button:disabled {
 }
 
 .suggestions-title {
-    font-size: 1.1em;
-    margin-bottom: 15px;
+    font-size: clamp(0.9em, 1.5vh, 1.1em);
+    margin-bottom: clamp(8px, 1.5vh, 15px);
     text-align: center;
     color: #d0c0e0;
     font-family: var(--font-primary);
@@ -510,8 +517,8 @@ button:disabled {
     background: linear-gradient(135deg, rgba(30, 15, 45, 0.9), rgba(20, 10, 35, 0.9));
     border: 1px solid rgba(80, 50, 120, 0.6);
     border-radius: 6px;
-    padding: 10px;
-    margin-bottom: 8px;
+    padding: clamp(6px, 1vh, 10px);
+    margin-bottom: clamp(4px, 0.8vh, 8px);
     cursor: pointer;
     transition: all 0.12s ease;
     position: relative;
@@ -555,18 +562,18 @@ button:disabled {
     font-weight: bold;
     color: #d0c0e0;
     font-family: var(--font-primary);
-    font-size: 0.85em;
+    font-size: clamp(0.7em, 1.2vh, 0.85em);
 }
 
 .suggestion-words {
-    margin: 3px 0;
+    margin: clamp(2px, 0.3vh, 3px) 0;
     color: #e0e0e0;
     font-family: var(--font-primary);
-    font-size: 0.8em;
+    font-size: clamp(0.65em, 1.1vh, 0.8em);
 }
 
 .suggestion-score {
-    font-size: 0.7em;
+    font-size: clamp(0.6em, 1vh, 0.7em);
     color: #b0a0c0;
     font-family: var(--font-primary);
 }
@@ -684,16 +691,16 @@ button:disabled {
 /* Game Stats */
 .loading {
     text-align: center;
-    font-size: 0.9em;
-    margin: 30px 0;
+    font-size: clamp(0.75em, 1.2vh, 0.9em);
+    margin: clamp(15px, 3vh, 30px) 0;
     color: #b0a0c0;
 }
 
 .game-stats {
     background: linear-gradient(135deg, rgba(25, 10, 40, 0.9), rgba(15, 10, 30, 0.9));
-    padding: 12px;
+    padding: clamp(8px, 1.2vh, 12px);
     border-radius: 8px;
-    margin-top: 18px;
+    margin-top: clamp(10px, 1.8vh, 18px);
     text-align: center;
     border: 1px solid rgba(70, 40, 110, 0.5);
     box-shadow: 0 2px 8px rgba(40, 20, 70, 0.3);
@@ -1086,12 +1093,13 @@ button:disabled {
 .global-stats {
     text-align: center;
     color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9em;
-    margin-top: 8px;
+    font-size: clamp(1em, 1.8vh, 1.3em);
+    margin-top: clamp(4px, 0.8vh, 8px);
     font-weight: 300;
 }
 
 .global-stats span {
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.3em;
 }
