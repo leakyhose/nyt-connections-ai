@@ -24,6 +24,11 @@ body {
     overflow-y: auto;
 }
 
+body:not(.intro-mode) {
+    overflow-y: auto;
+    height: 100vh;
+}
+
 body::before {
     content: '';
     position: absolute;
@@ -67,11 +72,40 @@ body.intro-mode {
     transform-origin: top center;
     position: relative;
     z-index: 10;
+    transform: translateY(0) scale(1);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.intro-mode .container {
+    transform: translateY(calc(50vh - 250px)) scale(1);
 }
 
 @media (min-width: 769px) {
     .container {
-        transform: scale(0.9);
+        transform: translateY(0) scale(0.9);
+    }
+    
+    body.intro-mode .container {
+        transform: translateY(calc(50vh - 250px)) scale(1);
+    }
+}
+
+/* Dynamic scaling for gameplay mode to prevent scrolling */
+@media (max-height: 850px) and (min-width: 769px) {
+    body:not(.intro-mode) .container {
+        transform: translateY(0) scale(0.85);
+    }
+}
+
+@media (max-height: 750px) and (min-width: 769px) {
+    body:not(.intro-mode) .container {
+        transform: translateY(0) scale(0.78);
+    }
+}
+
+@media (max-height: 650px) and (min-width: 769px) {
+    body:not(.intro-mode) .container {
+        transform: translateY(0) scale(0.70);
     }
 }
 
@@ -83,8 +117,11 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     position: relative;
     display: block;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+    transition: font-size 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                text-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-bottom 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: font-size;
 }
 
 h2 {
@@ -108,14 +145,14 @@ h2 {
     margin-bottom: clamp(10px, 2.5vh, 25px);
     margin-top: clamp(8px, 1.5vh, 15px);
     position: relative;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
     align-items: center;
+    transition: margin 0.8s cubic-bezier(0.4, 0, 0.2, 1), gap 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .title-container.intro-mode {
-    margin-top: 15vh;
-    margin-bottom: 5vh;
+    margin-top: 0;
+    margin-bottom: 0;
     gap: 3vh;
 }
 
@@ -388,14 +425,20 @@ button:disabled {
     width: 100%;
     max-width: 875px;
     opacity: 1;
-    transform: translateY(0);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0) scale(1);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
 }
 
 .main-content.hidden {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(0.95);
     pointer-events: none;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 .game-area {
