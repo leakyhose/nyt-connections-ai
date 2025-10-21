@@ -40,7 +40,13 @@ body::before {
     background-image: 
         linear-gradient(to right, rgba(120, 120, 130, 0.12) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(120, 120, 130, 0.12) 1px, transparent 1px),
-        radial-gradient(circle at 50% 50%, rgba(149, 76, 233, 0.18) 0%, rgba(149, 76, 233, 0.08) 35%, transparent 70%);
+        /* dimmer purple center, subtle mid, then fade to black at the edges */
+        radial-gradient(circle at 50% 50%,
+            rgba(149, 76, 233, 0.10) 0%,
+            rgba(149, 76, 233, 0.03) 30%,
+            rgba(0, 0, 0, 0.6) 70%,
+            rgba(0, 0, 0, 1) 100%
+        );
     background-size: 40px 40px, 40px 40px, 100% 100%;
     z-index: 0;
     pointer-events: none;
