@@ -51,30 +51,6 @@ Output shows success rate, average attempts, and performance statistics across 6
 ├── vite.config.js          # Vite build configuration
 └── package.json            # Dependencies and scripts
 ```
-
-## Data extraction and preprocessing (extract/)
-
-The `extract/` folder contains small tooling used to build and preprocess word lists and game data used by the AI.
-
-- `extract/extract.py` — A Python helper that parses raw sources (archives, scraped data, or exported lists) and writes cleaned outputs suitable for the project. Typical tasks:
-  - normalize and deduplicate word lists
-  - filter out non-alphabetic tokens
-  - map words to lowercase
-  - generate `full_words.txt` or other intermediates consumed by the embedding/data pipeline
-
-- `extract/full_words.txt` — A commit-friendly snapshot of the cleaned vocabulary. It's used by the extraction script and local tooling when rebuilding or extending the dataset.
-
-If you need to update the `full_words.txt` file, run or adapt `extract/extract.py` locally (Python 3.8+). The script is intentionally lightweight — it's not required to run the web app, but useful for dataset maintenance and experiments.
-
-Example (run from repo root):
-
-```bash
-python3 extract/extract.py --input raw_words_source.txt --output extract/full_words.txt
-```
-
-Note: `extract/` is not required for running the web demo; it's included for reproducibility and data maintenance.
-
-
 ## How It Works
 
 The AI uses graph theory to evaluate potential word groupings based on semantic similarity.
