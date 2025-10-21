@@ -11,6 +11,7 @@
 
 body {
     font-family: var(--font-primary);
+    /* Use pure black base */
     background: #000000;
     position: relative;
     color: #e0e0e0;
@@ -29,26 +30,19 @@ body:not(.intro-mode) {
     height: 100vh;
 }
 
+/* subtle grid + magenta orb overlay (kept very dim)
+   tweak the rgba alpha values below to control overlay brightness */
 body::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(168, 85, 247, 0.12) 0%,
-        rgba(168, 85, 247, 0.06) 20%,
-        transparent 60%
-    );
+    background: #000000;
+    background-image: 
+        linear-gradient(to right, rgba(120, 120, 130, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 120, 130, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 50% 50%, rgba(149, 76, 233, 0.18) 0%, rgba(149, 76, 233, 0.08) 35%, transparent 70%);
+    background-size: 40px 40px, 40px 40px, 100% 100%;
     z-index: 0;
-    pointer-events: none;
-}
-
-body::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-    z-index: 1;
     pointer-events: none;
 }
 
@@ -321,7 +315,6 @@ h2 {
     background: linear-gradient(135deg, rgba(35, 15, 50, 0.9), rgba(25, 15, 40, 0.9));
     padding: clamp(8px, 1.5vh, 15px);
     border-radius: 8px;
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(80, 50, 120, 0.4);
     box-shadow: 0 2px 8px rgba(50, 20, 80, 0.3);
     width: 100%;
