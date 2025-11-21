@@ -11,6 +11,7 @@
 
 body {
     font-family: var(--font-primary);
+    /* Use pure black base */
     background: #000000;
     position: relative;
     color: #e0e0e0;
@@ -24,27 +25,46 @@ body {
     overflow-y: auto;
 }
 
+body:not(.intro-mode) {
+    overflow-y: auto;
+    height: 100vh;
+}
+
+/* subtle grid + magenta orb overlay (kept very dim)
+   tweak the rgba alpha values below to control overlay brightness */
 body::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-        circle at center,
-        rgba(168, 85, 247, 0.12) 0%,
-        rgba(168, 85, 247, 0.06) 20%,
-        transparent 60%
-    );
+    background: #000000;
+    background-image: 
+        linear-gradient(to right, rgba(120, 120, 130, 0.12) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 120, 130, 0.12) 1px, transparent 1px),
+        /* dimmer purple center, subtle mid, then fade to black at the edges */
+        radial-gradient(circle at 50% 50%,
+            rgba(149, 76, 233, 0.10) 0%,
+            rgba(149, 76, 233, 0.03) 30%,
+            rgba(0, 0, 0, 0.6) 70%,
+            rgba(0, 0, 0, 1) 100%
+        );
+    background-size: 40px 40px, 40px 40px, 100% 100%;
     z-index: 0;
     pointer-events: none;
 }
 
+/* subtle vignette to darken edges and keep center glow visible */
 body::after {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-    z-index: 1;
     pointer-events: none;
+    z-index: 1; /* sits above the grid/glow but below UI (container has z-index:10) */
+    background: radial-gradient(circle at 50% 50%,
+        rgba(0,0,0,0) 0%,
+        rgba(0,0,0,0.25) 50%,
+        rgba(0,0,0,0.6) 85%,
+        rgba(0,0,0,0.9) 100%
+    );
 }
 
 body.intro-mode {
@@ -67,11 +87,40 @@ body.intro-mode {
     transform-origin: top center;
     position: relative;
     z-index: 10;
+    transform: translateY(0) scale(1);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.intro-mode .container {
+    transform: translateY(calc(50vh - 250px)) scale(1);
 }
 
 @media (min-width: 769px) {
     .container {
-        transform: scale(0.9);
+        transform: translateY(0) scale(0.9);
+    }
+    
+    body.intro-mode .container {
+        transform: translateY(calc(50vh - 250px)) scale(1);
+    }
+}
+
+/* Dynamic scaling for gameplay mode to prevent scrolling */
+@media (max-height: 850px) and (min-width: 769px) {
+    body:not(.intro-mode) .container {
+        transform: translateY(0) scale(0.85);
+    }
+}
+
+@media (max-height: 750px) and (min-width: 769px) {
+    body:not(.intro-mode) .container {
+        transform: translateY(0) scale(0.78);
+    }
+}
+
+@media (max-height: 650px) and (min-width: 769px) {
+    body:not(.intro-mode) .container {
+        transform: translateY(0) scale(0.70);
     }
 }
 
@@ -83,8 +132,11 @@ h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     position: relative;
     display: block;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+    transition: font-size 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                text-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                margin-bottom 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: font-size;
 }
 
 h2 {
@@ -108,14 +160,14 @@ h2 {
     margin-bottom: clamp(10px, 2.5vh, 25px);
     margin-top: clamp(8px, 1.5vh, 15px);
     position: relative;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
     align-items: center;
+    transition: margin 0.8s cubic-bezier(0.4, 0, 0.2, 1), gap 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .title-container.intro-mode {
-    margin-top: 15vh;
-    margin-bottom: 5vh;
+    margin-top: 0;
+    margin-bottom: 0;
     gap: 3vh;
 }
 
@@ -284,7 +336,6 @@ h2 {
     background: linear-gradient(135deg, rgba(35, 15, 50, 0.9), rgba(25, 15, 40, 0.9));
     padding: clamp(8px, 1.5vh, 15px);
     border-radius: 8px;
-    backdrop-filter: blur(10px);
     border: 1px solid rgba(80, 50, 120, 0.4);
     box-shadow: 0 2px 8px rgba(50, 20, 80, 0.3);
     width: 100%;
@@ -388,14 +439,20 @@ button:disabled {
     width: 100%;
     max-width: 875px;
     opacity: 1;
-    transform: translateY(0);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0) scale(1);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
 }
 
 .main-content.hidden {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) scale(0.95);
     pointer-events: none;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 .game-area {

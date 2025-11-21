@@ -40,6 +40,9 @@ Output shows success rate, average attempts, and performance statistics across 6
 ├── public/
 │   ├── firebase-config.js  # Firebase initialization
 │   └── data/               # Individual Connections Game files (640+ JSON files)
+├── extract/                # Scripts and data used to build/prepare datasets
+│   ├── extract.py          # Script to pull and preprocess word lists / game data
+│   └── full_words.txt      # Full word list used by extraction/preprocessing
 ├── index.html              # Web interface
 ├── styles.css              # UI styling
 ├── ai-solver.js            # Core AI algorithms (shared)
@@ -48,7 +51,6 @@ Output shows success rate, average attempts, and performance statistics across 6
 ├── vite.config.js          # Vite build configuration
 └── package.json            # Dependencies and scripts
 ```
-
 ## How It Works
 
 The AI uses graph theory to evaluate potential word groupings based on semantic similarity.

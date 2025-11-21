@@ -176,6 +176,7 @@ class WebApp {
 
     async loadGame(gameNumber) {
         try {
+            const isFirstLoad = document.body.classList.contains('intro-mode');
             this.exitIntroMode();
             
             document.getElementById('wordGrid').innerHTML = '<div class="loading">Loading game...</div>';
@@ -193,7 +194,7 @@ class WebApp {
             this.triedSuggestions.clear();
             
             this.updateDisplay();
-            this.generateSuggestionsWithAnimation();
+            this.generateSuggestionsWithAnimation(isFirstLoad);
             this.updateCounters();
             
         } catch (error) {
@@ -218,7 +219,9 @@ class WebApp {
             gameInfo.classList.remove('intro-mode');
             titleContainer.classList.remove('intro-mode');
             document.body.classList.remove('intro-mode');
-            setTimeout(() => mainContent.classList.remove('hidden'), 200);
+            
+            // Delay showing main content slightly to allow title to start animating
+            setTimeout(() => mainContent.classList.remove('hidden'), 300);
         }
     }
 
@@ -227,14 +230,20 @@ class WebApp {
         const mainContent = document.getElementById('mainContent');
         const titleContainer = document.querySelector('.title-container');
         
+        // First hide the main content
         mainContent.classList.add('hidden');
         
+        // Wait for content to start fading out, then start the reverse transition
         setTimeout(() => {
             gameInfo.classList.add('intro-mode');
             titleContainer.classList.add('intro-mode');
             document.body.classList.add('intro-mode');
+        }, 100);
+        
+        // Reset game after animations complete
+        setTimeout(() => {
             this.resetGame();
-        }, 300);
+        }, 900);
     }
 
     resetGame() {
@@ -382,20 +391,26 @@ class WebApp {
         this.generateSuggestionsWithAnimation();
     }
 
-    generateSuggestionsWithAnimation() {
+    generateSuggestionsWithAnimation(skipOverlay = false) {
         if (this.availableIndices.length === 0) return;
         
         const suggestionsList = document.getElementById('suggestionsList');
         suggestionsList.innerHTML = 
             '<div class="suggestions-title">Thinking...</div><div class="loading">Finding connections...</div>';
         
-        this.showOverlay();
+        // Don't show overlay during intro-to-game transition or if explicitly skipped
+        if (!skipOverlay) {
+            this.showOverlay();
+        }
         
         const thinkingDelay = Math.random() * 560 + 640;
         const overlayDelay = Math.random() * 320 + 640;
         
         setTimeout(() => this.generateSuggestions(), thinkingDelay);
-        setTimeout(() => this.hideOverlay(), overlayDelay);
+        
+        if (!skipOverlay) {
+            setTimeout(() => this.hideOverlay(), overlayDelay);
+        }
     }
 
     generateSuggestions() {
