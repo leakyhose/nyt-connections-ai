@@ -39,12 +39,21 @@ class AISolver:
             
         return 1 - outside_connections / ((2 * inside_connections) + outside_connections)
 
-    def generate_suggestions(self, adjacency_matrix, available_indices):
+    def generate_suggestions(self, adjacency_matrix, available_indices, bad_guesses=None):
+        if bad_guesses is None:
+            bad_guesses = []
+            
+        bad_guesses_set = set(bad_guesses)
+        
         suggestions = []
         # Generates all combinations of 4 words from available indices
         combos = list(itertools.combinations(available_indices, 4))
 
         for combo in combos:
+            # Skip if this combination has already been guessed and was wrong
+            if tuple(sorted(combo)) in bad_guesses_set:
+                continue
+                
             conductance = self.calc_conductance(combo, adjacency_matrix)
             density = self.calc_density(combo, adjacency_matrix)
             score = self.weights[0] * conductance + self.weights[1] * density

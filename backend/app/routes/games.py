@@ -77,6 +77,7 @@ def check_guess(game_id):
 def solve_game(game_id):
     data = request.json
     available_indices_shuffled = data.get('available_indices', [])
+    bad_guesses_shuffled = data.get('bad_guesses', [])
     seed = data.get('seed')
     
     if seed is None:
@@ -85,12 +86,17 @@ def solve_game(game_id):
     perm = get_permutation(seed)
     available_indices_original = [perm[i] for i in available_indices_shuffled]
     
+    # Convert bad guesses to original indices
+    bad_guesses_original = []
+    for guess in bad_guesses_shuffled:
+        bad_guesses_original.append(tuple(sorted([perm[i] for i in guess])))
+
     game = dynamo_service.get_game(game_id)
     if not game:
         return jsonify({"error": "Game not found"}), 404
         
     matrix = game['adjacency_matrix']
-    suggestions = ai_solver.generate_suggestions(matrix, available_indices_original)
+    suggestions = ai_solver.generate_suggestions(matrix, available_indices_original, bad_guesses_original)
     
     inv_perm = {original: shuffled for shuffled, original in enumerate(perm)}
     
