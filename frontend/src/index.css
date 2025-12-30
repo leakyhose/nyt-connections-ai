@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-bg: #2e3532;
+  --color-green: #ffffff;
+  --color-teal: #ffffff;
+  --color-mustard: #ffffff;
+  --color-red: #ffffff;
+  --color-text: #ffffff;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+button {
+  border-radius: 4px; /* Slight rounding for better look */
+}
+
