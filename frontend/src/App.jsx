@@ -122,13 +122,13 @@ function App() {
 
   return (
     <div className="min-h-screen p-8">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         <header className="mb-8 text-center border-b border-white pb-6">
-          <h1 className="text-4xl font-bold text-white">NYT Connections AI</h1>
+          <h1 className="text-5xl font-bold text-white">NYT Connections <span className="text-[#f4a259]">AI</span></h1>
         </header>
 
-        <div className="flex flex-col md:flex-row gap-8 items-start">
-          <div className="flex-1 w-full max-w-2xl">
+        <div className="flex flex-col md:flex-row gap-16 items-start justify-center">
+          <div className="flex-1 w-full max-w-lg">
             <GameControls 
               gameId={gameData?.game_number}
               onRandomGame={fetchRandomGame}
@@ -140,7 +140,10 @@ function App() {
 
             {message && (
               <div className={`
-                mb-4 py-3 text-center text-sm font-bold rounded border border-white text-white
+                mb-4 py-3 text-center text-sm font-bold rounded border
+                ${message.type === 'success' ? 'border-[#8cb369] text-[#8cb369]' : ''}
+                ${message.type === 'warning' ? 'border-[#f4a259] text-[#f4a259]' : ''}
+                ${message.type === 'error' ? 'border-[#bc4b51] text-[#bc4b51]' : ''}
               `}>
                 {message.text}
               </div>

@@ -11,13 +11,13 @@ const GameControls = ({ gameId, onRandomGame, onSubmit, onClear, canSubmit, turn
       <div className="flex gap-2">
         <button 
           onClick={onRandomGame}
-          className="border border-white text-white hover:bg-white hover:text-black px-3 py-1 text-xs font-bold transition-all"
+          className="border border-white text-white hover:bg-[#5b8e7d] hover:border-[#5b8e7d] hover:text-white px-3 py-1 text-xs font-bold transition-all"
         >
           New Game
         </button>
         <button
           onClick={onClear}
-          className="border border-white text-white hover:bg-white hover:text-black px-3 py-1 text-xs font-bold transition-all"
+          className="border border-white text-white hover:bg-[#bc4b51] hover:border-[#bc4b51] hover:text-white px-3 py-1 text-xs font-bold transition-all"
         >
           Clear
         </button>
@@ -27,7 +27,7 @@ const GameControls = ({ gameId, onRandomGame, onSubmit, onClear, canSubmit, turn
           className={`
             px-3 py-1 text-xs font-bold transition-all border
             ${canSubmit 
-              ? 'border-white text-white hover:bg-white hover:text-black' 
+              ? 'border-white text-white hover:bg-[#f4a259] hover:border-[#f4a259] hover:text-white' 
               : 'border-gray-600 text-gray-600 cursor-not-allowed'}
           `}
         >
