@@ -20,7 +20,7 @@ class AISolver:
         outside_connections = 0
         inside_connections = 0
         
-        # Convert to set for O(1) lookup
+        # set for O(1) lookup
         indices_set = set(indices)
         matrix_len = len(adjacency_matrix)
 
@@ -41,7 +41,7 @@ class AISolver:
 
     def generate_suggestions(self, adjacency_matrix, available_indices):
         suggestions = []
-        # Generate all combinations of 4 words from available indices
+        # Generates all combinations of 4 words from available indices
         combos = list(itertools.combinations(available_indices, 4))
 
         for combo in combos:
