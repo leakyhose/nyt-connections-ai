@@ -18,7 +18,7 @@ const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices }) => {
             key={index}
             onClick={() => onWordClick(index)}
             className={`
-              h-20 flex items-center justify-center p-2 text-lg font-bold rounded shadow-md transition-all border
+              h-20 flex items-center justify-center p-1 text-xs sm:text-sm md:text-base font-bold rounded shadow-md transition-all border break-words leading-tight
               ${isSelected 
                 ? 'bg-[#f4a259] text-white border-[#f4a259] transform scale-105' 
                 : 'bg-transparent text-white border-white hover:bg-white hover:text-black'}
