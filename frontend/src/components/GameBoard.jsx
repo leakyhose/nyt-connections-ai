@@ -1,12 +1,19 @@
 import React from 'react';
 
 const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices }) => {
+  const heightClasses = "min-h-[22.25rem] md:min-h-[30.25rem]";
+  const boardClasses = `grid grid-cols-4 gap-3 mb-6 ${heightClasses} content-start`;
+
   if (!words || words.length === 0) {
-    return <div className="py-12 text-center text-xl font-bold text-white">No game loaded</div>;
+    return (
+      <div className={`flex items-center justify-center mb-6 ${heightClasses}`}>
+        <div className="text-xl font-bold text-white">No game loaded</div>
+      </div>
+    );
   }
 
   return (
-    <div className="grid grid-cols-4 gap-3 mb-6">
+    <div className={boardClasses}>
       {words.map((word, index) => {
         const isSelected = selectedIndices.includes(index);
         const isSolved = solvedIndices.includes(index);
