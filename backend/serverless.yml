@@ -5,10 +5,15 @@ provider:
   runtime: python3.9
   region: us-east-1
   iam:
-    role: arn:aws:iam::389207581640:role/nyt_connections_role
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:GetItem
+            - dynamodb:Query
+            - dynamodb:Scan
+          Resource: "arn:aws:dynamodb:us-east-1:389207581640:table/ConnectionsGames"
   
-
-  environment:
   httpApi:
     cors: true
 
