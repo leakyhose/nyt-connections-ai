@@ -14,15 +14,19 @@ function App() {
   const [turns, setTurns] = useState(0);
   const [message, setMessage] = useState(null);
   const [badGuesses, setBadGuesses] = useState([]);
+  const [isLoadingGame, setIsLoadingGame] = useState(false);
 
   const fetchRandomGame = async () => {
     try {
+      setIsLoadingGame(true);
       const res = await fetch(`${API_BASE_URL}/api/games/random`);
       const data = await res.json();
       setGameData(data);
       resetGameState();
     } catch (err) {
       console.error("Failed to load game", err);
+    } finally {
+      setIsLoadingGame(false);
     }
   };
 
@@ -155,6 +159,7 @@ function App() {
               selectedIndices={selectedIndices}
               solvedIndices={solvedIndices}
               onWordClick={handleWordClick}
+              isLoading={isLoadingGame}
             />
 
             {message && (

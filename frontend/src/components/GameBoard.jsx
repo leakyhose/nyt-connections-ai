@@ -1,8 +1,16 @@
 import React from 'react';
 
-const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices }) => {
+const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices, isLoading }) => {
   const heightClasses = "min-h-[22.25rem] md:min-h-[30.25rem]";
   const boardClasses = `grid grid-cols-4 gap-3 mb-6 ${heightClasses} content-start`;
+
+  if (isLoading) {
+    return (
+      <div className={`flex items-center justify-center mb-6 ${heightClasses}`}>
+        <div className="text-xl font-bold text-white animate-pulse">Loading...</div>
+      </div>
+    );
+  }
 
   if (!words || words.length === 0) {
     return (
