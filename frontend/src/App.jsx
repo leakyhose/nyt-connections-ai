@@ -3,6 +3,8 @@ import GameBoard from './components/GameBoard';
 import SuggestionsPanel from './components/SuggestionsPanel';
 import GameControls from './components/GameControls';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+
 function App() {
   const [gameData, setGameData] = useState(null);
   const [selectedIndices, setSelectedIndices] = useState([]);
@@ -15,7 +17,7 @@ function App() {
 
   const fetchRandomGame = async () => {
     try {
-      const res = await fetch('/api/games/random');
+      const res = await fetch(`${API_BASE_URL}/api/games/random`);
       const data = await res.json();
       setGameData(data);
       resetGameState();
@@ -51,7 +53,7 @@ function App() {
     setTurns(prev => prev + 1);
     
     try {
-      const res = await fetch(`/api/games/${gameData.game_number}/check`, {
+      const res = await fetch(`${API_BASE_URL}/api/games/${gameData.game_number}/check`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
@@ -97,7 +99,7 @@ function App() {
     const availableIndices = gameData.words.map((_, i) => i).filter(i => !currentSolved.includes(i));
     
     try {
-      const res = await fetch(`/api/games/${gameData.game_number}/solve`, {
+      const res = await fetch(`${API_BASE_URL}/api/games/${gameData.game_number}/solve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
