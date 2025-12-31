@@ -1,0 +1,23 @@
+service: nyt-connections-backend
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-1
+  iam:
+    role: arn:aws:iam::389207581640:role/nyt_connections_role
+  
+
+  environment:
+  httpApi:
+    cors: true
+
+functions:
+  api:
+    handler: run.handler
+    events:
+      - httpApi: '*'
+
+custom:
+  pythonRequirements:
+    layer: true
