@@ -19,10 +19,20 @@ provider:
 
 functions:
   api:
-    handler: run.handler
+    handler: wsgi_handler.handler
     events:
       - httpApi: '*'
 
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
+
 custom:
+  wsgi:
+    app: run.app
+    packRequirements: false
   pythonRequirements:
-    layer: true
+    dockerizePip: false
+    slim: true
+    strip: false
+    layer: false
