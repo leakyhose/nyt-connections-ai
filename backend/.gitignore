@@ -1,10 +1,8 @@
-# Serverless Framework
 .serverless
 .serverless-wsgi
 wsgi_handler.py
 serverless_wsgi.py
 
-# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -14,13 +12,10 @@ env/
 venv/
 *.egg-info/
 
-# Dependencies
 node_modules/
 .requirements.zip
 
-# Environment
 .env
 
-# IDEs
 .vscode/
 .idea/

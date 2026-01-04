@@ -22,17 +22,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
+      - name: Create Redirect
+        run: |
+          mkdir site
+          echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=https://nyt-connections-ai.vercel.app/" /><script>window.location.href = "https://nyt-connections-ai.vercel.app/";</script><title>Redirecting...</title></head><body>If you are not redirected automatically, follow this <a href="https://nyt-connections-ai.vercel.app/">link</a>.</body></html>' > site/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -40,7 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./site
 
   deploy:
     environment:
