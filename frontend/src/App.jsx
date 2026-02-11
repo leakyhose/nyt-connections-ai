@@ -188,6 +188,11 @@ function App() {
     }
   };
 
+  // Load a game on mount
+  useEffect(() => {
+    fetchRandomGame();
+  }, []);
+
   const toggleAutoPlay = () => {
     if (autoPlayRef.current) {
       autoPlayRef.current = false;
