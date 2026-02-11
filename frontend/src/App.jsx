@@ -21,6 +21,9 @@ function App() {
   const [jumpingIndices, setJumpingIndices] = useState([]);
   const [reorderToFront, setReorderToFront] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+  const autoPlayRef = useRef(false);
+  const handleSubmitRef = useRef(null);
   const statusTimerRef = useRef(null);
 
   const fetchRandomGame = async () => {
@@ -74,9 +77,11 @@ function App() {
     setSelectedIndices([]);
   };
 
-  const handleSubmit = async () => {
-    if (selectedIndices.length !== 4 || isSubmitting) return;
+  const handleSubmit = async (overrideIndices) => {
+    const indices = Array.isArray(overrideIndices) ? overrideIndices : selectedIndices;
+    if (indices.length !== 4 || isSubmitting) return;
 
+    setSelectedIndices(indices);
     setIsSubmitting(true);
     setTurns(prev => prev + 1);
 
@@ -85,14 +90,14 @@ function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          guess_indices: selectedIndices,
+          guess_indices: indices,
           seed: gameData.seed
         })
       });
       const result = await res.json();
 
       if (result.result === 1) {
-        const guessed = [...selectedIndices];
+        const guessed = [...indices];
         showStatus('CORRECT!');
 
         // Phase 1: Sequential subtle jumps (staggered 120ms, 300ms each)
@@ -123,7 +128,7 @@ function App() {
         }, 1490);
 
       } else {
-        const guessedIndices = [...selectedIndices];
+        const guessedIndices = [...indices];
         setShakingIndices(guessedIndices);
 
         if (result.result === 0) {
@@ -132,7 +137,7 @@ function App() {
           showStatus('INCORRECT');
         }
 
-        const newBadGuesses = [...badGuesses, selectedIndices];
+        const newBadGuesses = [...badGuesses, indices];
         setBadGuesses(newBadGuesses);
 
         setTimeout(() => {
@@ -149,6 +154,8 @@ function App() {
       setIsSubmitting(false);
     }
   };
+
+  handleSubmitRef.current = handleSubmit;
 
   const fetchSuggestions = async (currentSolved = solvedIndices, currentBadGuesses = badGuesses) => {
     if (!gameData) return;
@@ -180,6 +187,51 @@ function App() {
       setIsLoadingSuggestions(false);
     }
   };
+
+  const toggleAutoPlay = () => {
+    if (autoPlayRef.current) {
+      autoPlayRef.current = false;
+      setIsAutoPlaying(false);
+    } else {
+      autoPlayRef.current = true;
+      setIsAutoPlaying(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!autoPlayRef.current) return;
+    if (isSubmitting || isLoadingGame || isLoadingSuggestions) return;
+
+    // No game loaded — start one
+    if (!gameData) {
+      const t = setTimeout(() => {
+        if (autoPlayRef.current) fetchRandomGame();
+      }, 300);
+      return () => clearTimeout(t);
+    }
+
+    // Game complete — start new game
+    if (solvedGroups.length === 4) {
+      const t = setTimeout(() => {
+        if (autoPlayRef.current) fetchRandomGame();
+      }, 800);
+      return () => clearTimeout(t);
+    }
+
+    // Have suggestions — select top guess then submit
+    if (suggestions.length > 0) {
+      const topGuess = suggestions[0].words;
+      const t = setTimeout(() => {
+        if (!autoPlayRef.current) return;
+        setSelectedIndices(topGuess);
+        setTimeout(() => {
+          if (!autoPlayRef.current) return;
+          handleSubmitRef.current(topGuess);
+        }, 250);
+      }, 300);
+      return () => clearTimeout(t);
+    }
+  }, [isAutoPlaying, isSubmitting, isLoadingGame, isLoadingSuggestions, solvedGroups.length, suggestions, gameData]);
 
   useEffect(() => {
     if (gameData) {
@@ -249,6 +301,8 @@ function App() {
           onSubmit={handleSubmit}
           onClear={handleClear}
           canSubmit={selectedIndices.length === 4 && !isSubmitting}
+          isAutoPlaying={isAutoPlaying}
+          onToggleAutoPlay={toggleAutoPlay}
         />
 
         {/* AI Suggestions */}
