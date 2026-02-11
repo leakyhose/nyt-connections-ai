@@ -2,22 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --color-bg: #2e3532;
-  --color-green: #8cb369;
-  --color-teal: #5b8e7d;
-  --color-mustard: #f4a259;
-  --color-red: #bc4b51;
-  --color-text: #ffffff;
-}
-
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: 'Libre Franklin', sans-serif;
 }
 
-button {
-  border-radius: 4px; /* Slight rounding for better look */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
 }
 
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+.animate-jump {
+  animation: jump 0.3s ease-in-out both;
+}
