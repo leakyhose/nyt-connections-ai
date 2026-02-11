@@ -1,39 +1,28 @@
 import React from 'react';
 
-const GameControls = ({ gameId, onRandomGame, onSubmit, onClear, canSubmit, turns }) => {
+const GameControls = ({ onSubmit, onClear, canSubmit }) => {
   return (
-    <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-      <div className="flex gap-6 text-sm md:text-base font-bold text-white">
-        <div>Game: <span className="text-white">{gameId || '---'}</span></div>
-        <div>Turns: <span className="text-white">{turns}</span></div>
-      </div>
-
-      <div className="flex gap-2">
-        <button 
-          onClick={onRandomGame}
-          className="border border-white text-white hover:bg-[#5b8e7d] hover:border-[#5b8e7d] hover:text-white px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold transition-all"
-        >
-          New Game
-        </button>
-        <button
-          onClick={onClear}
-          className="border border-white text-white hover:bg-[#bc4b51] hover:border-[#bc4b51] hover:text-white px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold transition-all"
-        >
-          Clear
-        </button>
-        <button
-          onClick={onSubmit}
-          disabled={!canSubmit}
-          className={`
-            px-3 py-1 md:px-4 md:py-2 text-xs md:text-sm font-bold transition-all border
-            ${canSubmit 
-              ? 'border-white text-white hover:bg-[#f4a259] hover:border-[#f4a259] hover:text-white' 
-              : 'border-gray-600 text-gray-600 cursor-not-allowed'}
-          `}
-        >
-          Submit
-        </button>
-      </div>
+    <div className="flex items-center justify-center gap-3 mt-4 mb-2">
+      <button
+        onClick={onClear}
+        className="rounded-full border border-black text-black bg-white
+                   hover:bg-black hover:text-white
+                   px-6 py-2 text-sm font-semibold transition-colors"
+      >
+        Deselect All
+      </button>
+      <button
+        onClick={onSubmit}
+        disabled={!canSubmit}
+        className={`
+          rounded-full border px-6 py-2 text-sm font-semibold transition-colors
+          ${canSubmit
+            ? 'border-black text-black bg-white hover:bg-black hover:text-white'
+            : 'border-gray-300 text-gray-300 bg-white cursor-not-allowed'}
+        `}
+      >
+        Submit
+      </button>
     </div>
   );
 };

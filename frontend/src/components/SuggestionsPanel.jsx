@@ -1,32 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const SuggestionsPanel = ({ suggestions, onSuggestionClick, isLoading }) => {
+const arraysMatch = (a, b) => {
+  if (!a || !b || a.length !== b.length) return false;
+  const sa = [...a].sort();
+  const sb = [...b].sort();
+  return sa.every((v, i) => v === sb[i]);
+};
+
+const SuggestionsPanel = ({ suggestions, selectedIndices, onSuggestionClick, isLoading }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <div className="bg-[#2e3532] border-l-2 border-white pl-6 h-full">
-      <h3 className="text-base font-bold mb-6 text-white tracking-wider">AI Suggestions</h3>
-      
-      {isLoading ? (
-        <div className="text-base text-white animate-pulse">Thinking...</div>
-      ) : (
-        <div className="space-y-4">
-          {suggestions.length === 0 ? (
-            <div className="text-base opacity-40 italic text-white">Load a game to see suggestions</div>
+    <div className="mt-6 border-t border-gray-200 pt-4">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between text-sm font-bold text-black mb-3"
+      >
+        <span>AI Suggestions</span>
+        <svg
+          className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="space-y-2">
+          {isLoading ? (
+            <div className="text-sm text-gray-500 animate-pulse py-4 text-center">Thinking...</div>
+          ) : suggestions.length === 0 ? (
+            <div className="text-sm text-gray-400 italic py-4 text-center">Load a game to see suggestions</div>
           ) : (
-            suggestions.map((suggestion, idx) => (
-              <div 
-                key={idx}
-                onClick={() => onSuggestionClick(suggestion.words)}
-                className="cursor-pointer border border-transparent hover:bg-white hover:text-black p-3 rounded transition-colors group"
-              >
-                <div className="flex justify-between text-sm mb-1 text-white group-hover:text-black">
-                  <span className="font-bold">#{idx + 1}</span>
-                  <span>{suggestion.score.toFixed(3)}</span>
+            suggestions.slice(0, 3).map((suggestion, idx) => {
+              const isActive = arraysMatch(selectedIndices, suggestion.words);
+              return (
+                <div
+                  key={idx}
+                  onClick={() => onSuggestionClick(suggestion.words)}
+                  className={`
+                    cursor-pointer rounded-lg px-4 py-3 transition-colors
+                    ${isActive
+                      ? 'bg-tile-selected text-white'
+                      : 'bg-gray-100 hover:bg-gray-200'}
+                  `}
+                >
+                  <div className="flex items-center justify-between mb-1">
+                    <span className={`text-xs font-bold ${isActive ? 'text-gray-300' : 'text-gray-600'}`}>
+                      #{idx + 1}
+                    </span>
+                    <span className={`text-xs font-semibold ${isActive ? 'text-gray-300' : 'text-gray-500'}`}>
+                      Score: {suggestion.score.toFixed(3)}
+                    </span>
+                  </div>
+                  <div className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-black'}`}>
+                    {suggestion.word_texts.join(', ')}
+                  </div>
                 </div>
-                <div className="text-base leading-snug text-white group-hover:text-black">
-                  {suggestion.word_texts.join(', ')}
-                </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       )}
