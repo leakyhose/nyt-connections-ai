@@ -64,7 +64,7 @@ function App() {
   };
 
   const handleWordClick = (index) => {
-    if (isSubmitting) return;
+    if (isSubmitting || isAutoPlaying) return;
     if (selectedIndices.includes(index)) {
       setSelectedIndices(selectedIndices.filter(i => i !== index));
     } else if (selectedIndices.length < 4) {
@@ -73,7 +73,7 @@ function App() {
   };
 
   const handleClear = () => {
-    if (isSubmitting) return;
+    if (isSubmitting || isAutoPlaying) return;
     setSelectedIndices([]);
   };
 
@@ -261,9 +261,11 @@ function App() {
           </div>
           <button
             onClick={fetchRandomGame}
-            className="rounded-full border border-black text-black bg-white
-                       hover:bg-black hover:text-white
-                       px-4 py-1.5 text-sm font-semibold transition-colors"
+            disabled={isAutoPlaying}
+            className={`rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors
+              ${isAutoPlaying
+                ? 'border-gray-300 text-gray-300 bg-white cursor-not-allowed'
+                : 'border-black text-black bg-white hover:bg-black hover:text-white'}`}
           >
             New Game
           </button>
@@ -305,7 +307,7 @@ function App() {
         <GameControls
           onSubmit={handleSubmit}
           onClear={handleClear}
-          canSubmit={selectedIndices.length === 4 && !isSubmitting}
+          canSubmit={selectedIndices.length === 4 && !isSubmitting && !isAutoPlaying}
           isAutoPlaying={isAutoPlaying}
           onToggleAutoPlay={toggleAutoPlay}
         />
@@ -315,7 +317,7 @@ function App() {
           suggestions={suggestions}
           selectedIndices={selectedIndices}
           onSuggestionClick={(indices) => {
-            if (!isSubmitting) setSelectedIndices(indices);
+            if (!isSubmitting && !isAutoPlaying) setSelectedIndices(indices);
           }}
           isLoading={isLoadingSuggestions}
         />
