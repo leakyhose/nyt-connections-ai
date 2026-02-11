@@ -30,3 +30,6 @@ venv/
 env/
 
 .env.production
+
+# Claude Code
+.claude/
