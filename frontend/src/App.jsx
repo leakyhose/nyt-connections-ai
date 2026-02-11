@@ -115,7 +115,7 @@ function App() {
 
           const groupWords = guessed.map(i => gameData.words[i]);
           setSolvedGroups(prev => [...prev, {
-            group: result.group ?? 0,
+            group: result.group ?? prev.length,
             indices: guessed,
             words: groupWords,
           }]);
