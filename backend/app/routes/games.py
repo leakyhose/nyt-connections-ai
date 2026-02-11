@@ -57,11 +57,20 @@ def check_guess(game_id):
     original_indices.sort()
     
     # Check groups
-    if original_indices == [0, 1, 2, 3] or \
-       original_indices == [4, 5, 6, 7] or \
-       original_indices == [8, 9, 10, 11] or \
-       original_indices == [12, 13, 14, 15]:
-        result = 1
+    group_ranges = {
+        0: [0, 1, 2, 3],
+        1: [4, 5, 6, 7],
+        2: [8, 9, 10, 11],
+        3: [12, 13, 14, 15],
+    }
+    matched_group = None
+    for group_num, group_indices in group_ranges.items():
+        if original_indices == group_indices:
+            matched_group = group_num
+            break
+
+    if matched_group is not None:
+        return jsonify({"result": 1, "group": matched_group})
     else:
         counts = {0:0, 1:0, 2:0, 3:0}
         for idx in original_indices:
