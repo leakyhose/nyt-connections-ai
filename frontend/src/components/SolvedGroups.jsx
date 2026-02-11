@@ -13,7 +13,7 @@ const SolvedGroups = ({ solvedGroups }) => {
   return (
     <div className="flex flex-col gap-2 mb-2">
       {solvedGroups.map(({ group, words }) => {
-        const config = GROUP_CONFIG[group];
+        const config = GROUP_CONFIG[group] || GROUP_CONFIG[0];
         return (
           <div
             key={group}
