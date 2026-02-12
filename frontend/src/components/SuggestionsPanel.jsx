@@ -30,9 +30,9 @@ const SuggestionsPanel = ({ suggestions, selectedIndices, onSuggestionClick, isL
       {isOpen && (
         <div className="space-y-2">
           {isLoading ? (
-            <div className="text-sm text-gray-500 animate-pulse py-4 text-center">Thinking...</div>
+            <div className="text-xs text-gray-500 animate-pulse py-2 text-center">Thinking...</div>
           ) : suggestions.length === 0 ? (
-            <div className="text-sm text-gray-400 italic py-4 text-center">Load a game to see suggestions</div>
+            <div className="text-xs text-gray-400 italic py-2 text-center">Load a game to see suggestions</div>
           ) : (
             suggestions.slice(0, 3).map((suggestion, idx) => {
               const isActive = arraysMatch(selectedIndices, suggestion.words);
@@ -41,21 +41,21 @@ const SuggestionsPanel = ({ suggestions, selectedIndices, onSuggestionClick, isL
                   key={idx}
                   onClick={() => onSuggestionClick(suggestion.words)}
                   className={`
-                    cursor-pointer rounded-lg px-4 py-3 transition-colors
+                    cursor-pointer rounded-lg px-3 py-2 transition-all
                     ${isActive
-                      ? 'bg-tile-selected text-white'
-                      : 'bg-gray-100 hover:bg-gray-200'}
+                      ? 'bg-gray-200'
+                      : 'bg-gray-50 hover:bg-gray-100'}
                   `}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className={`text-xs font-bold ${isActive ? 'text-gray-300' : 'text-gray-600'}`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-gray-600">
                       #{idx + 1}
                     </span>
-                    <span className={`text-xs font-semibold ${isActive ? 'text-gray-300' : 'text-gray-500'}`}>
+                    <span className="text-xs font-semibold text-gray-500">
                       Score: {suggestion.score.toFixed(3)}
                     </span>
                   </div>
-                  <div className={`text-sm font-semibold ${isActive ? 'text-white' : 'text-black'}`}>
+                  <div className="text-xs font-semibold text-black">
                     {suggestion.word_texts.join(', ')}
                   </div>
                 </div>
