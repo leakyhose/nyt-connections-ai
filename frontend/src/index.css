@@ -30,3 +30,24 @@ body {
 .animate-jump {
   animation: jump 0.3s ease-in-out both;
 }
+
+/* Auto-play: spinning gear */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.gear-spin {
+  animation: spin 2s linear infinite;
+}
+
+/* Auto-play: thinking dots */
+@keyframes dot-bounce {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+
+.ai-dot { animation: dot-bounce 1.4s ease-in-out infinite; }
+.ai-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-dot:nth-child(3) { animation-delay: 0.4s; }
+
