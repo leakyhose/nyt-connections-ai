@@ -19,7 +19,7 @@ const SolvedGroups = ({ solvedGroups }) => {
             key={group}
             className={`
               ${config.colorClass} rounded-lg px-4 text-center
-              h-[76px] md:h-[88px] flex items-center justify-center
+              h-[64px] md:h-[76px] flex items-center justify-center
             `}
           >
             <div className="text-sm font-bold text-black uppercase">

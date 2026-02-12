@@ -25,7 +25,7 @@ export default {
         'group-purple': '#ba81c5',
       },
       maxWidth: {
-        game: '624px',
+        game: '520px',
       },
     },
   },

@@ -1,6 +1,6 @@
 import React, { useRef, useLayoutEffect } from 'react';
 
-const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices, isLoading, shakingIndices, jumpingIndices, reorderToFront }) => {
+const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices, isLoading, shakingIndices, jumpingIndices, reorderToFront, isAutoPlaying }) => {
   const gridRef = useRef(null);
   const positionsRef = useRef({});
   const didFlipRef = useRef(false);
@@ -67,23 +67,26 @@ const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices, isLoadi
     }
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-lg font-bold text-black animate-pulse">Loading...</div>
+  if (isLoading || !words || words.length === 0) {
+    const grid = (
+      <div className="grid grid-cols-4 gap-2 relative">
+        {Array.from({ length: 16 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-[64px] md:h-[76px] rounded-lg bg-tile"
+          />
+        ))}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-lg font-bold text-black animate-pulse">
+            {isLoading ? 'Loading...' : 'Press New Game to start'}
+          </div>
+        </div>
       </div>
     );
+    return grid;
   }
 
-  if (!words || words.length === 0) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="text-lg font-semibold text-gray-500">Press New Game to start</div>
-      </div>
-    );
-  }
-
-  return (
+  const grid = (
     <div ref={gridRef} className="grid grid-cols-4 gap-2">
       {displayWords.map(({ word, index }) => {
         const isSelected = (selectedIndices || []).includes(index);
@@ -99,7 +102,7 @@ const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices, isLoadi
             onClick={() => onWordClick(index)}
             style={isJumping ? { animationDelay: `${jumpOrder * 120}ms` } : undefined}
             className={`
-              h-[76px] md:h-[88px] flex items-center justify-center
+              h-[64px] md:h-[76px] flex items-center justify-center
               rounded-lg text-xs sm:text-sm font-extrabold uppercase select-none
               ${isSelected || isInFront
                 ? 'bg-tile-selected text-white'
@@ -114,6 +117,8 @@ const GameBoard = ({ words, selectedIndices, onWordClick, solvedIndices, isLoadi
       })}
     </div>
   );
+
+  return grid;
 };
 
 export default GameBoard;
